@@ -1,15 +1,11 @@
-import javax.swing.*;
-import java.util.Calendar;
+import Classes.SPECIAL;
+import Classes.Species.Species;
+import Classes.Tamagotchi;
 
 public class Tests {
     public static void main(String[] args) {
-        Calendar cal1 = Calendar.getInstance();
-        JOptionPane.showMessageDialog(null,
-                "testoi esperando",
-                "imprechonante",
-                JOptionPane.PLAIN_MESSAGE);
-        Calendar cal2 = Calendar.getInstance();
-
-        System.out.println(""+(int)(cal2.getTimeInMillis()-cal1.getTimeInMillis()));
+        //SPECIAL special1 = new SPECIAL(5,8,9,3,6,3,10);
+        //Tamagotchi test1 = new Tamagotchi("Juancho", "Reptil", special1);
+        Tamagotchi test1 = new Tamagotchi("Pedro", Species.REPTIL);
     }
 }

@@ -1,3 +1,5 @@
+package Classes;
+
 public class SPECIAL {
     protected int
         Str,
@@ -7,7 +9,7 @@ public class SPECIAL {
         Int,
         Agl,
         Lck;
-    private static double MUTATION = .10; //% de mutacion
+    private static double MUTATION = .05; //% de mutacion
 
     public SPECIAL(int S, int P, int E, int C, int I, int A, int L) {
         Str = S;
@@ -100,8 +102,8 @@ public class SPECIAL {
     }
 
     private int merge(int a, int b){
-        if(Math.random() > .1)
-            return (int) (Math.random() * 10);
+        if(Math.random() > MUTATION)
+            return (int) (Math.random() * 10); //return random int 0-10
         int min, max;
         if(a<b) {
             min = a;
@@ -110,12 +112,12 @@ public class SPECIAL {
             min = b;
             max = a;
         }
-        return (int) ((Math.random() * (max - min)) + min);
+        return (int) ((Math.random() * (max - min)) + min); //return random int min-max
     }
 
     @Override
     public String toString() {
-        return "SPECIAL{" +
+        return "Classes.SPECIAL{" +
                 "Str=" + Str +
                 ", Per=" + Per +
                 ", End=" + End +

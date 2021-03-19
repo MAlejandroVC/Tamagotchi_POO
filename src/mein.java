@@ -6,7 +6,7 @@ public class mein {
             printMenu();
             //op = readOptionFromMenu
             //switch(op)
-
+            //for(each tamagotchi) update
         }
     }
 

@@ -1,8 +1,11 @@
+package Classes;
+
+import Classes.Species.Species;
 import java.util.Calendar;
 
 public class Tamagotchi {
     private String name;
-    private final String species;
+    private final int species;
     private SPECIAL dna;
     private int age; //minutos vivo
     private int lvl; //0-10
@@ -18,10 +21,30 @@ public class Tamagotchi {
     private Calendar last_fed;
     private Calendar last_play;
 
-    public Tamagotchi(String name, String species, SPECIAL dna){
+    public Tamagotchi(String name, int species, SPECIAL dna){ //constructor de hijo
         this.name = name;
         this.species = species;
         this.dna = dna;
+
+        age = 0;
+        lvl = 0;
+        max_hunger = 50*dna.End;
+        hunger = max_hunger;
+        max_hp = 25*dna.End;
+        hp = max_hp;
+        happiness = 50;
+
+        last_fed = born;
+        last_play = born;
+
+        isHungry = false;
+        isDepressed = false;
+    }
+
+    public Tamagotchi(String name, int species){ //para new tamagotchi, sale del aire
+        this.name = name;
+        this.species = species;
+        this.dna = new SPECIAL(Species.high_end(species), Species.low_end(species));
 
         age = 0;
         lvl = 0;
