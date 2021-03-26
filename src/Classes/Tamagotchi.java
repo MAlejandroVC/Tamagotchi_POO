@@ -6,7 +6,7 @@ import java.util.Calendar;
 public class Tamagotchi {
     private String name;
     private final int species;
-    private SPECIAL dna;
+    protected SPECIAL dna;
     private int age; //minutos vivo
     private int lvl; //0-10
     private int happiness; //0-100
@@ -129,6 +129,10 @@ public class Tamagotchi {
         }
     }
 
+    public SPECIAL getDna(){
+        return this.dna;
+    }
+
     public void update(){
         Calendar time = Calendar.getInstance();
         setAge((int) (time.getTimeInMillis() - born.getTimeInMillis())/60_000);
@@ -152,5 +156,28 @@ public class Tamagotchi {
         setHappiness(this.happiness+fun);
     }
 
-    //falta procrear
+    public static Tamagotchi procrear(Tamagotchi pareja1, Tamagotchi pareja2){
+        if(pareja1.species != pareja2.species)
+            return null;
+        boolean isAtractive1 = false;
+        boolean isAtractive2 = false;
+        if(Math.random()*100 < 10*pareja1.dna.getCha())
+            isAtractive1 = true;
+        if(Math.random()*100 < 10*pareja2.dna.getCha())
+            isAtractive2 = true;
+        if(isAtractive1 && isAtractive2)
+            return new Tamagotchi("no-name", pareja1.species, new SPECIAL(pareja1.dna, pareja2.dna));
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Tamagotchi{" +
+                "name='" + name + "'" + "\t" +
+                ", species=" + species +
+                ", dna=" + dna +
+                ", lvl=" + lvl +
+                ", born=" + born.getTime() +
+                '}';
+    }
 }

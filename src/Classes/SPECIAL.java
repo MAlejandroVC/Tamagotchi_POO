@@ -9,7 +9,7 @@ public class SPECIAL {
         Int,
         Agl,
         Lck;
-    private static double MUTATION = .05; //% de mutacion
+    private static double MUTATION = .10; //% de mutacion
 
     public SPECIAL(int S, int P, int E, int C, int I, int A, int L) {
         Str = S;
@@ -21,14 +21,14 @@ public class SPECIAL {
         Lck = L;
     }
 
-    public SPECIAL(SPECIAL mom, SPECIAL dad){
-        this.setStr(merge(mom.Str, dad.Str));
-        this.setPer(merge(mom.Per, dad.Per));
-        this.setEnd(merge(mom.End, dad.End));
-        this.setCha(merge(mom.Cha, dad.Cha));
-        this.setInt(merge(mom.Int, dad.Int));
-        this.setAgl(merge(mom.Agl, dad.Agl));
-        this.setLck(merge(mom.Lck, dad.Lck));
+    public SPECIAL(SPECIAL a, SPECIAL b){
+        this.setStr(merge(a.Str, b.Str));
+        this.setPer(merge(a.Per, b.Per));
+        this.setEnd(merge(a.End, b.End));
+        this.setCha(merge(a.Cha, b.Cha));
+        this.setInt(merge(a.Int, b.Int));
+        this.setAgl(merge(a.Agl, b.Agl));
+        this.setLck(merge(a.Lck, b.Lck));
     }
 
     public int getStr() {
@@ -102,7 +102,7 @@ public class SPECIAL {
     }
 
     private int merge(int a, int b){
-        if(Math.random() > MUTATION)
+        if(Math.random() < MUTATION)
             return (int) (Math.random() * 10); //return random int 0-10
         int min, max;
         if(a<b) {
@@ -117,7 +117,7 @@ public class SPECIAL {
 
     @Override
     public String toString() {
-        return "Classes.SPECIAL{" +
+        return "SPECIAL{" +
                 "Str=" + Str +
                 ", Per=" + Per +
                 ", End=" + End +
