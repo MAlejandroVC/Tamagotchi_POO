@@ -159,11 +159,13 @@ public class Tamagotchi {
     public static Tamagotchi procrear(Tamagotchi pareja1, Tamagotchi pareja2){
         if(pareja1.species != pareja2.species)
             return null;
+        if(pareja1.getLvl()<5 || pareja2.getLvl()<5)
+            return null;
         boolean isAtractive1 = false;
         boolean isAtractive2 = false;
-        if(Math.random()*100 < 10*pareja1.dna.getCha())
+        if(Math.random()*100 < 5*pareja1.dna.getCha())
             isAtractive1 = true;
-        if(Math.random()*100 < 10*pareja2.dna.getCha())
+        if(Math.random()*100 < 5*pareja2.dna.getCha())
             isAtractive2 = true;
         if(isAtractive1 && isAtractive2)
             return new Tamagotchi("no-name", pareja1.species, new SPECIAL(pareja1.dna, pareja2.dna));
@@ -178,6 +180,26 @@ public class Tamagotchi {
                 ", dna=" + dna +
                 ", lvl=" + lvl +
                 ", born=" + born.getTime() +
+                '}';
+    }
+
+    public String stats() { //hacer que se vea mejor
+        return "Tamagotchi{" +
+                "name='" + name + "'" +
+                ", species=" + species +
+                ", dna=" + dna +
+                ", age=" + age +
+                ", lvl=" + lvl +
+                ", happiness=" + happiness +
+                ", hunger=" + hunger +
+                ", hp=" + hp +
+                ", max_hunger=" + max_hunger +
+                ", max_hp=" + max_hp +
+                ", isHungry=" + isHungry +
+                ", isDepressed=" + isDepressed +
+                ", born=" + born.getTime() +
+                ", last_fed=" + last_fed.getTime() +
+                ", last_play=" + last_play.getTime() +
                 '}';
     }
 }

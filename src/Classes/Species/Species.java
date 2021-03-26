@@ -52,4 +52,12 @@ public class Species{
                 return new SPECIAL(9,9,9,9,9,9,9);
         }
     }
+
+    public static String menu() {
+        return  "Reptil     = 1 \n" +
+                "Canino     = 2 \n" +
+                "Felino     = 3 \n" +
+                "Ave        = 4 \n" +
+                "Acuatico   = 5 \n";
+    }
 }
