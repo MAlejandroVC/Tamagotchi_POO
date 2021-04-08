@@ -34,8 +34,13 @@ public class mein {
                     pelear();
                     break;
                 case "6":
+                    load();
+                    break;
+                case "7":
+                    skip(myPets, totalPets);
                     break;
                 case "0":
+                    save();
                     playing = false;
                     break;
             }
@@ -67,7 +72,8 @@ public class mein {
         System.out.println(" 3. Jugar con tu Tamagotchi             ");
         System.out.println(" 4. Manda el Tamagotchi a explorar      ");
         System.out.println(" 5. Pelea contra otro Tamagotchi        ");
-        System.out.println(" 6. Skip                                ");
+        System.out.println(" 6. Importa de un archivo               ");
+        System.out.println(" 7. Skip                                ");
         System.out.println(" 0. Salir del juego                     ");
     }
 
@@ -91,12 +97,12 @@ public class mein {
         Scanner reader = new Scanner(System.in);
         for(int i=0; i<total; i++)
             System.out.println((i+1) + ". " + array[i].getName());
-        System.out.println("0. Canelar");
+        System.out.println("0. Cancelar");
         int op = Integer.parseInt(reader.nextLine());
         if(op<1 || op>total)
             return 0;
         op--;
-        System.out.println(array[op].stats());
+        System.out.println(array[op]);
         return op;
     }
 
@@ -110,5 +116,24 @@ public class mein {
 
     public static void pelear(){
         System.out.println("Pelea");
+    }
+
+    public static void load(){
+        System.out.println("Loading from file");
+    }
+
+    public static void skip(Tamagotchi[] myPets, int totalPets){
+        Scanner reader = new Scanner(System.in);
+        System.out.print("Ingresa cuantos turnos quieres saltar: ");
+        int turns = Integer.parseInt(reader.nextLine())-1;
+        for(int i=0; i<turns; i++){
+            for(int j=0; j<totalPets; j++)
+                myPets[j].update();
+        }
+    }
+
+    public static void save(){
+        System.out.println("Saving...");
+        System.out.println("Save complete");
     }
 }
