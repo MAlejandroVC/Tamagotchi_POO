@@ -117,14 +117,12 @@ public class SPECIAL {
 
     @Override
     public String toString() {
-        return "SPECIAL{" +
-                "Str=" + Str +
+        return    "Str=" + Str +
                 ", Per=" + Per +
                 ", End=" + End +
                 ", Cha=" + Cha +
                 ", Int=" + Int +
                 ", Agl=" + Agl +
-                ", Lck=" + Lck +
-                '}';
+                ", Lck=" + Lck;
     }
 }

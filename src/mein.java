@@ -25,23 +25,29 @@ public class mein {
                     currentPet = select(myPets, totalPets);
                     break;
                 case "3":
-                    jugar(myPets[currentPet]);
+                    view(myPets[currentPet]);
                     break;
                 case "4":
-                    explorar(myPets[currentPet]);
+                    jugar(myPets[currentPet]);
                     break;
                 case "5":
-                    pelear();
+                    explorar(myPets[currentPet]);
                     break;
                 case "6":
-                    load();
+                    pelear();
                     break;
                 case "7":
+                    load();
+                    break;
+                case "8":
                     skip(myPets, totalPets);
                     break;
                 case "0":
                     save();
                     playing = false;
+                    break;
+                case "-1":
+                    devTools(myPets[currentPet]);
                     break;
             }
             //update
@@ -53,15 +59,15 @@ public class mein {
                     for (int j = i + 1; j < totalPets; j++) { //j
                         if(totalPets > 63)
                             break;
-                        System.out.println(""+i+"v"+j);
                         myPets[totalPets] = Tamagotchi.procrear(myPets[i], myPets[j]);
-                        if (myPets[totalPets] != null) {
+                        if (myPets[totalPets] != null){
                             totalPets++;
-                            //System.out.println("procrearon " + totalPets);
+                            System.out.println("Nació un tamagotchi nuevo! Ve a conocerlo");
                         }
                     }
                 }
             }
+            //
         }
     }
 
@@ -69,11 +75,12 @@ public class mein {
         System.out.println(" ~~~~~~~~~~~~~~~ MENU ~~~~~~~~~~~~~~~   ");
         System.out.println(" 1. Crear un Tamagotchi nuevo           ");
         System.out.println(" 2. Selecciona un Tamagotchi            ");
-        System.out.println(" 3. Jugar con tu Tamagotchi             ");
-        System.out.println(" 4. Manda el Tamagotchi a explorar      ");
-        System.out.println(" 5. Pelea contra otro Tamagotchi        ");
-        System.out.println(" 6. Importa de un archivo               ");
-        System.out.println(" 7. Skip                                ");
+        System.out.println(" 3. Ver a mi Tamagotchi                 ");
+        System.out.println(" 4. Jugar con tu Tamagotchi             ");
+        System.out.println(" 5. Manda el Tamagotchi a explorar      ");
+        System.out.println(" 6. Pelea contra otro Tamagotchi        ");
+        System.out.println(" 7. Importa de un archivo               ");
+        System.out.println(" 8. Skip                                ");
         System.out.println(" 0. Salir del juego                     ");
     }
 
@@ -102,8 +109,20 @@ public class mein {
         if(op<1 || op>total)
             return 0;
         op--;
-        System.out.println(array[op]);
+        //System.out.println(array[op]);
         return op;
+    }
+
+    public static void view(Tamagotchi pet){
+        //Show image
+        System.out.println("Nombre:    " + pet.getName());
+        System.out.println("Nivel:     " + pet.getLvl());
+        System.out.println("Salud:     " + pet.getHp() + "/" + pet.getMaxHp());
+        System.out.println("Hambre:    " + pet.getHunger() + "/" + pet.getMaxHunger());
+        System.out.println("Felicidad: " + pet.getHappiness() + "/100");
+        System.out.println("Edad       " + pet.getAge());
+        System.out.println("Especie:   " + pet.getSpecies());
+        System.out.println("SPECIAL:   " + pet.getDna());
     }
 
     public static void jugar(Tamagotchi pet){
@@ -135,5 +154,66 @@ public class mein {
     public static void save(){
         System.out.println("Saving...");
         System.out.println("Save complete");
+    }
+
+    public static void devTools(Tamagotchi pet){
+        String op;
+        Scanner reader = new Scanner(System.in);
+        boolean dev = true;
+        while(dev){
+            System.out.println(" ~~~~~~~~~~~~~ DEV MENU ~~~~~~~~~~~~~   ");
+            System.out.println(" 1. Cambiar de nivel                    ");
+            System.out.println(" 2. Cambiar SPECIAL                     ");
+            System.out.println(" 3. Cambiar salud                       ");
+            System.out.println(" 0. Salir de DevTools                   ");
+
+            op = reader.nextLine();
+            switch(op){
+                case "1":
+                    System.out.print("Ingresa el nivel nuevo: ");
+                    pet.setLvl(Integer.parseInt(reader.nextLine()));
+                    break;
+                case "2":
+                    System.out.print("Cual SPECIAL vas a cambiar? ");
+                    switch(reader.nextLine()){
+                        case "S":
+                            System.out.println("Ingresa el nuevo Str: ");
+                            pet.getDna().setStr(Integer.parseInt(reader.nextLine()));
+                            break;
+                        case "P":
+                            System.out.println("Ingresa el nuevo Per: ");
+                            pet.getDna().setPer(Integer.parseInt(reader.nextLine()));
+                            break;
+                        case "E":
+                            System.out.println("Ingresa el nuevo End: ");
+                            pet.getDna().setEnd(Integer.parseInt(reader.nextLine()));
+                            break;
+                        case "C":
+                            System.out.println("Ingresa el nuevo Cha: ");
+                            pet.getDna().setCha(Integer.parseInt(reader.nextLine()));
+                            break;
+                        case "I":
+                            System.out.println("Ingresa el nuevo Int: ");
+                            pet.getDna().setInt(Integer.parseInt(reader.nextLine()));
+                            break;
+                        case "A":
+                            System.out.println("Ingresa el nuevo Agl: ");
+                            pet.getDna().setAgl(Integer.parseInt(reader.nextLine()));
+                            break;
+                        case "L":
+                            System.out.println("Ingresa el nuevo Lck: ");
+                            pet.getDna().setLck(Integer.parseInt(reader.nextLine()));
+                            break;
+                    }
+                    break;
+                case "3":
+                    pet.heal(pet.getMaxHp());
+                    pet.feed(pet.getMaxHunger());
+                    pet.play(100);
+                    break;
+                case "0":
+                    dev = false;
+            }
+        }
     }
 }

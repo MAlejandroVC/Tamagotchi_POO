@@ -81,12 +81,21 @@ public class Tamagotchi {
         return lvl;
     }
 
+    public void setLvl(int lvl) {
+        this.lvl = lvl;
+    }
+
     public void lvlUp() {
-        this.lvl++;
+        if(this.lvl < 10)
+            this.lvl++;
     }
 
     public int getHunger() {
         return hunger;
+    }
+
+    public int getMaxHunger(){
+        return max_hunger;
     }
 
     private void setHunger(int hunger) {
@@ -103,6 +112,10 @@ public class Tamagotchi {
 
     public int getHp() {
         return hp;
+    }
+
+    public int getMaxHp(){
+        return max_hp;
     }
 
     private void setHp(int hp) {
@@ -156,6 +169,10 @@ public class Tamagotchi {
         setHappiness(this.happiness+fun);
     }
 
+    public void heal(int healing){
+        setHp(getHp()+healing);
+    }
+
     public static Tamagotchi procrear(Tamagotchi pareja1, Tamagotchi pareja2){
         if(pareja1.species != pareja2.species)
             return null;
@@ -170,6 +187,27 @@ public class Tamagotchi {
         if(isAtractive1 && isAtractive2)
             return new Tamagotchi("no-name", pareja1.species, new SPECIAL(pareja1.dna, pareja2.dna));
         return null;
+    }
+
+    public String getSpecies(){
+        switch(this.species){
+            case Species.GOD:
+                return "God";
+            case Species.REPTIL:
+                return "Reptil";
+            case Species.CANINO:
+                return "Canino";
+            case Species.FELINO:
+                return "Felino";
+            case Species.AVE:
+                return "Ave";
+            case Species.ACUATICO:
+                return "Acuatico";
+            case Species.MAGICO:
+                return "Magico";
+            default:
+                return "ERROR";
+        }
     }
 
     @Override
