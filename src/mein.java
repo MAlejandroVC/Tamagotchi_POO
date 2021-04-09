@@ -1,4 +1,5 @@
 import Classes.Species.Species;
+import Classes.Species.Subspecies;
 import Classes.Tamagotchi;
 
 import java.util.Scanner;
@@ -85,15 +86,11 @@ public class mein {
     }
 
     public static void newPet(Tamagotchi[] array, int total){
-        System.out.println("Selecciona la especie: ");
-        System.out.println(Species.menu());
-        Scanner reader = new Scanner(System.in);
-        int op = Integer.parseInt(reader.nextLine());
-        if(op<0 || op>6)
-            op = 1;
+        Species species = Species.selectSpecies();
         System.out.println("Ingresa un nombre: ");
+        Scanner reader = new Scanner(System.in);
         String name = reader.nextLine();
-        array[total] = new Tamagotchi(name, op);
+        array[total] = new Tamagotchi(name, species);
     }
 
     public static int select(Tamagotchi[] array, int total){

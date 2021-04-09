@@ -5,7 +5,7 @@ import java.util.Calendar;
 
 public class Tamagotchi {
     private String name;
-    private final int species;
+    private final Species species;
     protected SPECIAL dna;
     private int age; //minutos vivo
     private int lvl; //0-10
@@ -21,7 +21,7 @@ public class Tamagotchi {
     private Calendar last_fed;
     private Calendar last_play;
 
-    public Tamagotchi(String name, int species, SPECIAL dna){ //constructor de hijo
+    public Tamagotchi(String name, Species species, SPECIAL dna){ //constructor de hijo
         this.name = name;
         this.species = species;
         this.dna = dna;
@@ -41,7 +41,7 @@ public class Tamagotchi {
         isDepressed = false;
     }
 
-    public Tamagotchi(String name, int species){ //para new tamagotchi, sale del aire
+    public Tamagotchi(String name, Species species){ //para new tamagotchi, sale del aire
         this.name = name;
         this.species = species;
         this.dna = new SPECIAL(Species.high_end(species), Species.low_end(species));
@@ -67,6 +67,10 @@ public class Tamagotchi {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Species getSpecies(){
+        return this.species;
     }
 
     public int getAge() {
@@ -187,27 +191,6 @@ public class Tamagotchi {
         if(isAtractive1 && isAtractive2)
             return new Tamagotchi("no-name", pareja1.species, new SPECIAL(pareja1.dna, pareja2.dna));
         return null;
-    }
-
-    public String getSpecies(){
-        switch(this.species){
-            case Species.GOD:
-                return "God";
-            case Species.REPTIL:
-                return "Reptil";
-            case Species.CANINO:
-                return "Canino";
-            case Species.FELINO:
-                return "Felino";
-            case Species.AVE:
-                return "Ave";
-            case Species.ACUATICO:
-                return "Acuatico";
-            case Species.MAGICO:
-                return "Magico";
-            default:
-                return "ERROR";
-        }
     }
 
     @Override
