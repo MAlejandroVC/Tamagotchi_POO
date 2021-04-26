@@ -1,7 +1,7 @@
 package Classes.Species;
 import Classes.SPECIAL;
 
-import java.util.Scanner;
+import javax.swing.*;
 
 public enum Species{
     GOD(Subspecies.GOD),
@@ -61,15 +61,14 @@ public enum Species{
     }
 
     public static Species selectSpecies(){
-        System.out.println("Selecciona la especie: ");
-        System.out.println(
-                "Acuatico   = 1 \n" +
-                "Ave        = 2 \n" +
-                "Canino     = 3 \n" +
-                "Felino     = 4 \n" +
-                "Reptil     = 5 \n");
-        Scanner reader = new Scanner(System.in);
-        int op = Integer.parseInt(reader.nextLine());
+        int op = Integer.parseInt(JOptionPane.showInputDialog(null,
+                "Acuatico   = 1\n" +
+                        "Ave        = 2\n" +
+                        "Canino     = 3\n" +
+                        "Felino     = 4\n" +
+                        "Reptil     = 5",
+                "Selecciona la especie",
+                JOptionPane.QUESTION_MESSAGE));
         switch(op){
             case 0:
                 return GOD;

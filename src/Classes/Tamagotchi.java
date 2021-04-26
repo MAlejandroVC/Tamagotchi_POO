@@ -1,6 +1,8 @@
 package Classes;
 
 import Classes.Species.Species;
+
+import javax.swing.*;
 import java.util.Calendar;
 
 public class Tamagotchi {
@@ -161,6 +163,10 @@ public class Tamagotchi {
 
     public void kill(){
         System.out.println(this.name + "ha muerto!");
+        JOptionPane.showMessageDialog(null,
+                this.name + "ha muerto!",
+                "Uh Oh!",
+                JOptionPane.WARNING_MESSAGE);
     }
 
     public void feed(int food){
