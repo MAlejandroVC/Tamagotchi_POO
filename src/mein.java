@@ -24,8 +24,8 @@ public class mein {
                             5. Jugar con tu Tamagotchi            \s
                             6. Manda el Tamagotchi a explorar     \s
                             7. Pelea contra otro Tamagotchi       \s
-                            8. Importa de un archivo              \s
-                            9. Skip                               \s
+                            8. Importa Tamagotchis                \s
+                            9. Exporta Tamagotchis                \s
                             0. Salir del juego                    \s""".indent(1),
                     "Menú Principal",
                     JOptionPane.QUESTION_MESSAGE);
@@ -56,14 +56,14 @@ public class mein {
                     load();
                     break;
                 case "9":
-                    skip(myPets, totalPets);
+                    save();
                     break;
                 case "0":
                     save();
                     playing = false;
                     break;
                 case "-1":
-                    devTools(myPets[currentPet]);
+                    devTools(myPets, currentPet, totalPets);
                     break;
                 default:
                     errorMessage();
@@ -94,11 +94,12 @@ public class mein {
 
     public static void newPet(Tamagotchi[] array, int total){
         Species species = Species.selectSpecies();
+        Subspecies subspecies = Subspecies.selectSubspecies(species);
         String name = JOptionPane.showInputDialog(null,
                 "Ingresa un nombre",
                 "Crear un Tamagotchi nuevo",
                 JOptionPane.QUESTION_MESSAGE);
-        array[total] = new Tamagotchi(name, species);
+        array[total] = new Tamagotchi(name, species, subspecies);
     }
 
     public static int select(Tamagotchi[] array, int total){
@@ -130,7 +131,7 @@ public class mein {
                         "Salud:     " + pet.getHp() + "/" + pet.getMaxHp()+ "\n" +
                         "Hambre:    " + pet.getHunger() + "/" + pet.getMaxHunger()+ "\n" +
                         "Felicidad: " + pet.getHappiness() + "/100"+ "\n" +
-                        "Edad       " + pet.getAge()+ "\n" +
+                        "Edad:      " + pet.getAge()+ "\n" +
                         "Especie:   " + pet.getSpecies()+ "\n" +
                         "SPECIAL:   " + pet.getDna(),
                 "Ver a mi Tamagotchi",
@@ -144,17 +145,17 @@ public class mein {
         while(eating) {
             op = JOptionPane.showInputDialog(null,
                     " ~~~ " + pet.getName() + ": " + pet.getHunger() + "/" + pet.getMaxHunger() + " ~~~ \n"+
-                            " ~~~~~~~~~~~~ MENU COMIDA ~~~~~~~~~~~~  "+
-                            " 1. Manzana                       (10)  "+
-                            " 2. Galleta                       (10)  "+
-                            " 3. Sandwich                      (25)  "+
-                            " 4. Sopa                          (30)  "+
-                            " 5. Carne asada                   (50)  "+
-                            " 6. Hamburguesa                   (60)  "+
-                            " 7. Pastel                        (75)  "+
-                            " 8. Tacos                         (90)  "+
-                            " 9. Lox meat pie                 (100)  "+
-                            " 0. Salir                               ",
+                            " ~~~~~~~~~~~~ MENU COMIDA ~~~~~~~~~~~~  \n"+
+                            " 1. Manzana                       (10)  \n"+
+                            " 2. Galleta                       (10)  \n"+
+                            " 3. Sandwich                      (25)  \n"+
+                            " 4. Sopa                          (30)  \n"+
+                            " 5. Carne asada                   (50)  \n"+
+                            " 6. Hamburguesa                   (60)  \n"+
+                            " 7. Pastel                        (75)  \n"+
+                            " 8. Tacos                         (90)  \n"+
+                            " 9. Lox meat pie                 (100)  \n"+
+                            " 0. Salir                               \n",
                     "Alimentar Tamagotchi",
                     JOptionPane.QUESTION_MESSAGE);
             switch (op) {
@@ -225,16 +226,19 @@ public class mein {
         System.out.println("Save complete");
     }
 
-    public static void devTools(Tamagotchi pet){
+    public static void devTools(Tamagotchi[] myPets, int currentPet,int totalPets){
         String op, op2, op3;
         boolean dev = true;
+        Tamagotchi pet = myPets[currentPet];
         while(dev){
             op = JOptionPane.showInputDialog(null,
                     """
                             ~~~~~~~~~~~~~ DEV MENU ~~~~~~~~~~~~~  \s
                             1. Cambiar de nivel                   \s
                             2. Cambiar SPECIAL                    \s
-                            3. Cambiar salud                      \s
+                            3. Curar tamagotchi                   \s
+                            4. Cambiar tamagotchi                 \s
+                            5. Skip                               \s
                             0. Salir de DevTools                  \s""".indent(1),
                     "Developer Tools",
                     JOptionPane.QUESTION_MESSAGE);
@@ -247,7 +251,6 @@ public class mein {
                             JOptionPane.QUESTION_MESSAGE);
                     break;
                 case "2":
-                    //System.out.print("Cual SPECIAL vas a cambiar? ");
                     op2 = JOptionPane.showInputDialog(null,
                             "Cual SPECIAL vas a cambiar?",
                             "Cambiar SPECIAL",
@@ -308,9 +311,21 @@ public class mein {
                     pet.heal(pet.getMaxHp());
                     pet.feed(pet.getMaxHunger());
                     pet.play(100);
+                    JOptionPane.showMessageDialog(null,
+                            "Tamagotchi al 100",
+                            "Tamagotchi Feliz",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                case "4":
+                    currentPet = select(myPets, totalPets);
+                    view(myPets[currentPet]);
+                    break;
+                case "5":
+                    skip(myPets, totalPets);
                     break;
                 case "0":
                     dev = false;
+                    break;
                 default:
                     errorMessage();
             }

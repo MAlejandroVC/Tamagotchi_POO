@@ -1,7 +1,6 @@
 package Classes.Species;
 
 import javax.swing.*;
-import java.util.Scanner;
 
 public enum Subspecies {
     GOD,
@@ -12,10 +11,16 @@ public enum Subspecies {
     COCODRILO, TORTUGA, COMODO, IGUANA, CAMALEON,
     CTHULHU, DRAGON, KRAKEN, GODZILLA, UNICORNIO;
 
-    public static Subspecies selectSubspecies(String species){
+    public static Subspecies randomSubspecies(Subspecies a, Subspecies b){
+        if(Math.random()*100 < 50)
+            return a;
+        return b;
+    }
+
+    public static Subspecies selectSubspecies(Species species){
         int op;
         switch(species){
-            case "ACUATICO":
+            case ACUATICO:
                 op = Integer.parseInt(JOptionPane.showInputDialog(null,
                         "Ballena    = 1\n" +
                                 "Camaron    = 2\n" +
@@ -31,7 +36,7 @@ public enum Subspecies {
                     case 4: return PULPO;
                     default: return TIBURON;
                 }
-            case "AVE":
+            case AVE:
                 op = Integer.parseInt(JOptionPane.showInputDialog(null,
                         "Cotorro    = 1\n" +
                                 "Tucan      = 2\n" +
@@ -47,7 +52,7 @@ public enum Subspecies {
                     case 4: return QUETZAL;
                     default: return AGUILA;
                 }
-            case "CANINO":
+            case CANINO:
                 op = Integer.parseInt(JOptionPane.showInputDialog(null,
                         "Golden   = 1\n" +
                                 "Husky    = 2\n" +
@@ -63,7 +68,7 @@ public enum Subspecies {
                     case 4: return SHITZU;
                     default: return LOBO;
                 }
-            case "FELINO":
+            case FELINO:
                 op = Integer.parseInt(JOptionPane.showInputDialog(null,
                         "Tigre      = 1\n" +
                                 "Leon       = 2\n" +
@@ -79,7 +84,7 @@ public enum Subspecies {
                     case 4: return PANTERA;
                     default: return GATITO;
                 }
-            case "REPTIL":
+            case REPTIL:
                 op = Integer.parseInt(JOptionPane.showInputDialog(null,
                         "Cocodrilo   = 1\n" +
                                 "Tortuga     = 2\n" +
@@ -95,7 +100,7 @@ public enum Subspecies {
                     case 4: return IGUANA;
                     default: return CAMALEON;
                 }
-            case "MAGICO":
+            case MAGICO:
                 op = Integer.parseInt(JOptionPane.showInputDialog(null,
                         "Cthulhu     = 1\n" +
                                 "Dragon      = 2\n" +

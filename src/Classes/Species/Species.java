@@ -4,19 +4,13 @@ import Classes.SPECIAL;
 import javax.swing.*;
 
 public enum Species{
-    GOD(Subspecies.GOD),
-    ACUATICO(Subspecies.selectSubspecies("ACUATICO")),
-    AVE(Subspecies.selectSubspecies("AVE")),
-    CANINO(Subspecies.selectSubspecies("CANINO")),
-    FELINO(Subspecies.selectSubspecies("FELINO")),
-    MAGICO(Subspecies.selectSubspecies("MAGICO")),
-    REPTIL(Subspecies.selectSubspecies("REPTIL"));
-
-    private Subspecies subspecies;
-
-    Species(Subspecies subspecies){
-        this.subspecies = subspecies;
-    }
+    GOD,
+    ACUATICO,
+    AVE,
+    CANINO,
+    FELINO,
+    MAGICO,
+    REPTIL;
 
     public static SPECIAL low_end(Species species){
         switch(species){
@@ -70,7 +64,7 @@ public enum Species{
                 "Selecciona la especie",
                 JOptionPane.QUESTION_MESSAGE));
         switch(op){
-            case 0:
+            case -1:
                 return GOD;
             case 1:
                 return ACUATICO;
@@ -83,9 +77,5 @@ public enum Species{
             default:
                 return REPTIL;
         }
-    }
-
-    public Subspecies getSubspecies(){
-        return this.subspecies;
     }
 }

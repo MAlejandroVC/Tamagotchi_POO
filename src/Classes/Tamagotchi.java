@@ -1,6 +1,7 @@
 package Classes;
 
 import Classes.Species.Species;
+import Classes.Species.Subspecies;
 
 import javax.swing.*;
 import java.util.Calendar;
@@ -8,6 +9,7 @@ import java.util.Calendar;
 public class Tamagotchi {
     private String name;
     private final Species species;
+    private final Subspecies subspecies;
     protected SPECIAL dna;
     private int age; //minutos vivo
     private int lvl; //0-10
@@ -23,9 +25,10 @@ public class Tamagotchi {
     private Calendar last_fed;
     private Calendar last_play;
 
-    public Tamagotchi(String name, Species species, SPECIAL dna){ //constructor de hijo
+    public Tamagotchi(String name, Species species, Subspecies subspecies, SPECIAL dna){ //constructor de hijo
         this.name = name;
         this.species = species;
+        this.subspecies = subspecies;
         this.dna = dna;
 
         age = 0;
@@ -43,9 +46,10 @@ public class Tamagotchi {
         isDepressed = false;
     }
 
-    public Tamagotchi(String name, Species species){ //para new tamagotchi, sale del aire
+    public Tamagotchi(String name, Species species, Subspecies subspecies){ //para new tamagotchi, sale del aire
         this.name = name;
         this.species = species;
+        this.subspecies = subspecies;
         this.dna = new SPECIAL(Species.high_end(species), Species.low_end(species));
 
         age = 0;
@@ -155,8 +159,8 @@ public class Tamagotchi {
     public void update(){
         Calendar time = Calendar.getInstance();
         setAge((int) (time.getTimeInMillis() - born.getTimeInMillis())/60_000);
-        setHunger((int) (time.getTimeInMillis() - last_fed.getTimeInMillis())/60_000);
-        setHappiness((int) (time.getTimeInMillis() - last_play.getTimeInMillis())/60_000);
+        feed(-(int) (time.getTimeInMillis() - last_fed.getTimeInMillis())/60_000);
+        play(-(int) (time.getTimeInMillis() - last_play.getTimeInMillis())/60_000);
         if(isHungry)
             setHp(-5);
     }
@@ -195,7 +199,14 @@ public class Tamagotchi {
         if(Math.random()*100 < 5*pareja2.dna.getCha())
             isAtractive2 = true;
         if(isAtractive1 && isAtractive2)
-            return new Tamagotchi("no-name", pareja1.species, new SPECIAL(pareja1.dna, pareja2.dna));
+            return new Tamagotchi(
+                    JOptionPane.showInputDialog(null,
+                            "Ponle nombre a tu nuevo tamagotchi",
+                            "Nació un Tamagotchi!",
+                            JOptionPane.PLAIN_MESSAGE),
+                    pareja1.species,
+                    Subspecies.randomSubspecies(pareja1.subspecies, pareja2.subspecies),
+                    new SPECIAL(pareja1.dna, pareja2.dna));
         return null;
     }
 
