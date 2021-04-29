@@ -5,6 +5,7 @@ import Classes.Species.Subspecies;
 
 import javax.swing.*;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class Tamagotchi {
     private String name;
@@ -21,7 +22,7 @@ public class Tamagotchi {
     private boolean isHungry;
     private boolean isDepressed;
 
-    private final Calendar born = Calendar.getInstance();
+    private Calendar born = Calendar.getInstance();
     private Calendar last_fed;
     private Calendar last_play;
 
@@ -67,6 +68,36 @@ public class Tamagotchi {
         isDepressed = false;
     }
 
+    public Tamagotchi(String name, String species, String subspecies, String lvl,
+                      String max_hunger, String max_hp, String hp, String hunger, String happiness,
+                      String S, String P, String E, String C, String I, String A, String L){ //para importar tamagotchis
+        this.name = name;
+        this.species = Species.selectSpecies(species);
+        this.subspecies = Subspecies.selectSubspecies(subspecies);
+        this.lvl = Integer.parseInt(lvl);
+
+        this.max_hunger = Integer.parseInt(max_hunger);
+        this.max_hp = Integer.parseInt(max_hp);
+        this.hp = Integer.parseInt(hp);
+        this.hunger = Integer.parseInt(hunger);
+        this.happiness = Integer.parseInt(happiness);
+
+        //this.born = Calendar.getInstance();
+        this.last_fed = Calendar.getInstance();
+        this.last_play = Calendar.getInstance();
+
+        this.dna = new SPECIAL(
+                Integer.parseInt(S),
+                Integer.parseInt(P),
+                Integer.parseInt(E),
+                Integer.parseInt(C),
+                Integer.parseInt(I),
+                Integer.parseInt(A),
+                Integer.parseInt(L));
+
+        this.update();
+    }
+
     public String getName() {
         return name;
     }
@@ -77,6 +108,10 @@ public class Tamagotchi {
 
     public Species getSpecies(){
         return this.species;
+    }
+
+    public Subspecies getSubspecies(){
+        return this.subspecies;
     }
 
     public int getAge() {

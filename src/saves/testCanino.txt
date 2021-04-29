@@ -1,0 +1,17 @@
+TamagotchiSave
+testCanino
+CANINO
+LOBO
+0
+100
+50
+50
+100
+50
+4
+7
+2
+6
+4
+3
+0

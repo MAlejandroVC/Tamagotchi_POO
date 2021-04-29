@@ -64,18 +64,23 @@ public enum Species{
                 "Selecciona la especie",
                 JOptionPane.QUESTION_MESSAGE));
         switch(op){
-            case -1:
-                return GOD;
-            case 1:
-                return ACUATICO;
-            case 2:
-                return AVE;
-            case 3:
-                return CANINO;
-            case 4:
-                return FELINO;
-            default:
-                return REPTIL;
+            case -1: return GOD;
+            case 1: return ACUATICO;
+            case 2: return AVE;
+            case 3: return CANINO;
+            case 4: return FELINO;
+            default: return REPTIL;
+        }
+    }
+
+    public static Species selectSpecies(String species){
+        switch(species){
+            case "GOD":         return GOD;
+            case "ACUATICO":    return ACUATICO;
+            case "AVE":         return AVE;
+            case "CANINO":      return CANINO;
+            case "FELINO":      return FELINO;
+            default:            return REPTIL;
         }
     }
 }

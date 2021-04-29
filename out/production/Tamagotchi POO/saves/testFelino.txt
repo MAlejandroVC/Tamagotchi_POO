@@ -1,0 +1,17 @@
+TamagotchiSave
+testFelino
+FELINO
+TIGRE
+0
+100
+50
+50
+100
+50
+9
+5
+2
+3
+6
+6
+6

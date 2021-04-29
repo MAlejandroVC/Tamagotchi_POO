@@ -29,13 +29,7 @@ public enum Subspecies {
                                 "Tiburon    = 5",
                         "Selecciona una subespecie",
                         JOptionPane.QUESTION_MESSAGE));
-                switch(op){
-                    case 1: return BALLENA;
-                    case 2: return CAMARON;
-                    case 3: return GOLDFISH;
-                    case 4: return PULPO;
-                    default: return TIBURON;
-                }
+                return switchOP(op, BALLENA, CAMARON, GOLDFISH, PULPO, TIBURON);
             case AVE:
                 op = Integer.parseInt(JOptionPane.showInputDialog(null,
                         "Cotorro    = 1\n" +
@@ -45,13 +39,7 @@ public enum Subspecies {
                                 "Aguila     = 5",
                         "Selecciona una subespecie",
                         JOptionPane.QUESTION_MESSAGE));
-                switch(op){
-                    case 1: return COTORRO;
-                    case 2: return TUCAN;
-                    case 3: return PINGUINO;
-                    case 4: return QUETZAL;
-                    default: return AGUILA;
-                }
+                return switchOP(op, COTORRO, TUCAN, PINGUINO, QUETZAL, AGUILA);
             case CANINO:
                 op = Integer.parseInt(JOptionPane.showInputDialog(null,
                         "Golden   = 1\n" +
@@ -61,13 +49,7 @@ public enum Subspecies {
                                 "Lobo     = 5",
                         "Selecciona una subespecie",
                         JOptionPane.QUESTION_MESSAGE));
-                switch(op){
-                    case 1: return GOLDEN;
-                    case 2: return HUSKY;
-                    case 3: return PASTOR;
-                    case 4: return SHITZU;
-                    default: return LOBO;
-                }
+                return switchOP(op, GOLDEN, HUSKY, PASTOR, SHITZU, LOBO);
             case FELINO:
                 op = Integer.parseInt(JOptionPane.showInputDialog(null,
                         "Tigre      = 1\n" +
@@ -77,13 +59,7 @@ public enum Subspecies {
                                 "Gatito     = 5",
                         "Selecciona una subespecie",
                         JOptionPane.QUESTION_MESSAGE));
-                switch(op){
-                    case 1: return TIGRE;
-                    case 2: return LEON;
-                    case 3: return LEOPARDO;
-                    case 4: return PANTERA;
-                    default: return GATITO;
-                }
+                return switchOP(op, TIGRE, LEON, LEOPARDO, PANTERA, GATITO);
             case REPTIL:
                 op = Integer.parseInt(JOptionPane.showInputDialog(null,
                         "Cocodrilo   = 1\n" +
@@ -93,13 +69,7 @@ public enum Subspecies {
                                 "Camaleon    = 5",
                         "Selecciona una subespecie",
                         JOptionPane.QUESTION_MESSAGE));
-                switch(op){
-                    case 1: return COCODRILO;
-                    case 2: return TORTUGA;
-                    case 3: return COMODO;
-                    case 4: return IGUANA;
-                    default: return CAMALEON;
-                }
+                return switchOP(op, COCODRILO, TORTUGA, COMODO, IGUANA, CAMALEON);
             case MAGICO:
                 op = Integer.parseInt(JOptionPane.showInputDialog(null,
                         "Cthulhu     = 1\n" +
@@ -109,13 +79,59 @@ public enum Subspecies {
                                 "Unicornio   = 5",
                         "Selecciona una subespecie",
                         JOptionPane.QUESTION_MESSAGE));
-                switch(op){
-                    case 1: return CTHULHU;
-                    case 2: return DRAGON;
-                    case 3: return KRAKEN;
-                    case 4: return GODZILLA;
-                    default: return UNICORNIO;
-                }
+                return switchOP(op, CTHULHU, DRAGON, KRAKEN, GODZILLA, UNICORNIO);
+            default: return GOD;
+        }
+    }
+
+    private static Subspecies switchOP(int op, Subspecies sub1, Subspecies sub2, Subspecies sub3, Subspecies sub4, Subspecies sub5) {
+        switch(op){
+            case 1: return sub1;
+            case 2: return sub2;
+            case 3: return sub3;
+            case 4: return sub4;
+            default: return sub5;
+        }
+    }
+
+    public static Subspecies selectSubspecies(String subspecies){
+        switch(subspecies){
+            case "BALLENA": return BALLENA;
+            case "CAMARON": return CAMARON;
+            case "GOLDFISH": return GOLDFISH;
+            case "PULPO": return PULPO;
+            case "TIBURON": return TIBURON;
+
+            case "COTORRO": return COTORRO;
+            case "TUCAN": return TUCAN;
+            case "PINGUINO": return PINGUINO;
+            case "QUETZAL": return QUETZAL;
+            case "AGUILA": return AGUILA;
+
+            case "GOLDEN": return GOLDEN;
+            case "HUSKY": return HUSKY;
+            case "PASTOR": return PASTOR;
+            case "SHITZU": return SHITZU;
+            case "LOBO": return LOBO;
+
+            case "TIGRE": return TIGRE;
+            case "LEON": return LEON;
+            case "LEOPARDO": return LEOPARDO;
+            case "PANTERA": return PANTERA;
+            case "GATITO": return GATITO;
+
+            case "COCODRILO": return COCODRILO;
+            case "TORTUGA": return TORTUGA;
+            case "COMODO": return COMODO;
+            case "IGUANA": return IGUANA;
+            case "CAMALEON": return CAMALEON;
+
+            case "CTHULHU": return CTHULHU;
+            case "DRAGON": return DRAGON;
+            case "KRAKEN": return KRAKEN;
+            case "GODZILLA": return GODZILLA;
+            case "UNICORNIO": return UNICORNIO;
+
             default: return GOD;
         }
     }

@@ -3,6 +3,7 @@ import Classes.Species.Subspecies;
 import Classes.Tamagotchi;
 
 import javax.swing.*;
+import java.io.*;
 
 public class mein {
     public static void main(String[] args) {
@@ -53,13 +54,13 @@ public class mein {
                     pelear();
                     break;
                 case "8":
-                    load();
+                    totalPets = load(myPets, totalPets);
                     break;
                 case "9":
-                    save();
+                    save(myPets, totalPets);
                     break;
                 case "0":
-                    save();
+                    save(myPets, totalPets);
                     playing = false;
                     break;
                 case "-1":
@@ -72,23 +73,7 @@ public class mein {
             for(int i=0; i<totalPets; i++)
                 myPets[i].update();
             //procrear
-            if(totalPets > 1) { //total pets
-                for (int i = 0; i < totalPets - 1; i++) { //i
-                    for (int j = i + 1; j < totalPets; j++) { //j
-                        if(totalPets > 63)
-                            break;
-                        myPets[totalPets] = Tamagotchi.procrear(myPets[i], myPets[j]);
-                        if (myPets[totalPets] != null){
-                            totalPets++;
-                            JOptionPane.showMessageDialog(null,
-                                    "Nació un tamagotchi nuevo! Ve a conocerlo",
-                                    "Nuevo Tamagotchi",
-                                    JOptionPane.INFORMATION_MESSAGE);
-                        }
-                    }
-                }
-            }
-            //
+            procrear(myPets, totalPets);
         }
     }
 
@@ -206,8 +191,90 @@ public class mein {
         System.out.println("Pelea");
     }
 
-    public static void load(){
-        System.out.println("Loading from file");
+    public static int load(Tamagotchi[] myPets, int totalPets){
+        BufferedReader breader;
+        String name;
+        String path = JOptionPane.showInputDialog(null,
+                "Dirección del juego: \n" +
+                        "ej: C:\\Users\\Lenovo\\IdeaProjects\\Tamagotchi_POO\\src",
+                "Cargar Tamagotchis",
+                JOptionPane.PLAIN_MESSAGE);
+        while(true){
+            name = JOptionPane.showInputDialog(null,
+                    "Nombre del Tamagotchi:",
+                    "Cargar Tamagotchis",
+                    JOptionPane.PLAIN_MESSAGE);
+            if(name==null)
+                break;
+            try{
+                breader = new BufferedReader(new FileReader(path + "\\saves\\" + name + ".txt"));
+                if(breader.readLine().equals("TamagotchiSave")) {
+                    myPets[totalPets] = new Tamagotchi(
+                            ""+breader.readLine(),
+                            ""+breader.readLine(),
+                            ""+breader.readLine(),
+                            ""+breader.readLine(),
+                            ""+breader.readLine(),
+                            ""+breader.readLine(),
+                            ""+breader.readLine(),
+                            ""+breader.readLine(),
+                            ""+breader.readLine(),
+                            ""+breader.readLine(),
+                            ""+breader.readLine(),
+                            ""+breader.readLine(),
+                            ""+breader.readLine(),
+                            ""+breader.readLine(),
+                            ""+breader.readLine(),
+                            ""+breader.readLine());
+                    totalPets++;
+                }
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null,
+                        "No se pudo abrir el archivo",
+                        "Error!",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return totalPets;
+    }
+
+    public static void save(Tamagotchi[] myPets, int totalPets){
+        BufferedWriter bwriter;
+        Tamagotchi pet;
+        String path = JOptionPane.showInputDialog(null,
+                "Dirección del juego: \n" +
+                        "ej: C:\\Users\\Lenovo\\IdeaProjects\\Tamagotchi_POO\\src",
+                "Guardar Tamagotchis",
+                JOptionPane.PLAIN_MESSAGE);
+        try{
+            for(int i=0; i<totalPets; i++){
+                pet = myPets[i];
+                bwriter = new BufferedWriter(new FileWriter(path + "\\saves\\" + pet.getName() +".txt"));
+                bwriter.write("TamagotchiSave\n");
+                bwriter.write(""+pet.getName()+"\n");
+                bwriter.write(""+pet.getSpecies()+"\n");
+                bwriter.write(""+pet.getSubspecies()+"\n");
+                bwriter.write(""+pet.getLvl()+"\n");
+                bwriter.write(""+pet.getMaxHunger()+"\n");
+                bwriter.write(""+pet.getMaxHp()+"\n");
+                bwriter.write(""+pet.getHp()+"\n");
+                bwriter.write(""+pet.getHunger()+"\n");
+                bwriter.write(""+pet.getHappiness()+"\n");
+                bwriter.write(""+pet.getDna().getStr()+"\n");
+                bwriter.write(""+pet.getDna().getPer()+"\n");
+                bwriter.write(""+pet.getDna().getEnd()+"\n");
+                bwriter.write(""+pet.getDna().getCha()+"\n");
+                bwriter.write(""+pet.getDna().getInt()+"\n");
+                bwriter.write(""+pet.getDna().getAgl()+"\n");
+                bwriter.write(""+pet.getDna().getLck()+"\n");
+                bwriter.close();
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,
+                    "No se pudo crear el archivo",
+                    "Error!",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public static void skip(Tamagotchi[] myPets, int totalPets){
@@ -216,14 +283,30 @@ public class mein {
                 "Skip",
                 JOptionPane.QUESTION_MESSAGE))-1;
         for(int i=0; i<turns; i++){
-            for(int j=0; j<totalPets; j++)
+            for(int j=0; j<totalPets; j++) {
                 myPets[j].update();
+                procrear(myPets, totalPets);
+            }
         }
     }
 
-    public static void save(){
-        System.out.println("Saving...");
-        System.out.println("Save complete");
+    public static void procrear(Tamagotchi[] myPets, int totalPets){
+        if(totalPets > 1) {
+            for (int i = 0; i < totalPets - 1; i++) { //i
+                for (int j = i + 1; j < totalPets; j++) { //j
+                    if(totalPets > 63)
+                        break;
+                    myPets[totalPets] = Tamagotchi.procrear(myPets[i], myPets[j]);
+                    if (myPets[totalPets] != null){
+                        totalPets++;
+                        JOptionPane.showMessageDialog(null,
+                                "Nació un tamagotchi nuevo! Ve a conocerlo",
+                                "Nuevo Tamagotchi",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+            }
+        }
     }
 
     public static void devTools(Tamagotchi[] myPets, int currentPet,int totalPets){

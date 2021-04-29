@@ -3,28 +3,39 @@ import Classes.Species.Species;
 import Classes.Species.Subspecies;
 import Classes.Tamagotchi;
 
+import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+
 public class Tests {
     public static void main(String[] args) {
-        //SPECIAL special1 = new SPECIAL(5,8,9,3,6,3,10);
-        Tamagotchi test1 = new Tamagotchi("Juancho", Species.CANINO, Subspecies.HUSKY);
-        Tamagotchi test2 = new Tamagotchi("Filomena", Species.CANINO, Subspecies.SHITZU);
-
-        test1.setLvl(5);
-        test2.setLvl(5);
-
-        System.out.println(test1);
-        System.out.println(test2);
-
-        Tamagotchi test3;
-        int hijos = 0;
-        for(int i = 0; i<100 ; i++){
-            test3 = Tamagotchi.procrear(test1, test2);
-            if(test3 != null) {
-                //System.out.println(test3);
-                hijos++;
+        BufferedReader breader;
+        String name;
+        String path = JOptionPane.showInputDialog(null,
+                "Dirección del juego: \n" +
+                        "ej: C:\\Users\\Lenovo\\IdeaProjects\\Tamagotchi_POO\\src",
+                "Cargar Tamagotchis",
+                JOptionPane.PLAIN_MESSAGE);
+        while(true){
+            name = JOptionPane.showInputDialog(null,
+                    "Nombre del Tamagotchi:",
+                    "Cargar Tamagotchis",
+                    JOptionPane.PLAIN_MESSAGE);
+            if(name==null)
+                break;
+            try{
+                breader = new BufferedReader(new FileReader(path + "\\saves\\" + name + ".txt"));
+                if(breader.readLine().equals("TamagotchiSave"))
+                    for(int i=0; i<16; i++)
+                        System.out.println(i + ". " + breader.readLine());
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null,
+                        "No se pudo abrir el archivo",
+                        "Error!",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
-        System.out.println("Porcentaje de procreado: " + hijos);
-        System.out.println("Porcentaje esperado:     " + (test1.getDna().getCha()*test2.getDna().getCha())/4);
     }
 }
