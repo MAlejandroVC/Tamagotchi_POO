@@ -1,5 +1,9 @@
 import Classes.Species.Species;
 import Classes.Tamagotchi;
+import Games.BlackJack;
+import Games.C0necta4;
+import Games.Gato;
+import Games.Roshambo;
 
 import java.util.Scanner;
 
@@ -101,7 +105,43 @@ public class mein {
     }
 
     public static void jugar(Tamagotchi pet){
-        System.out.println(pet.getName() + "esta jugando");
+
+        System.out.println(" ~~~~~~~~~~~~~~~ JUEGOS ~~~~~~~~~~~~~~~ ");
+        System.out.println(" 1. BlackJack           ");
+        System.out.println(" 2. Gato                ");
+        System.out.println(" 3. Pelota              ");
+        System.out.println(" 4. Connect 4               ");
+        System.out.println(" 5. Roshambo            ");
+        System.out.println(" 0. Cancelar            ");
+
+        String op;
+        Scanner reader = new Scanner(System.in);
+        op = reader.nextLine();
+        switch(op){
+            case "1":
+                BlackJack.main(pet);
+                pet.play(20);
+                break;
+            case "2":
+                Gato.main(pet);
+                pet.play(5);
+                break;
+            case "3":
+
+                break;
+            case "4":
+                C0necta4.main(pet);
+                break;
+            case "5":
+                Roshambo.main(pet);
+                pet.play(5);
+                break;
+            case "6":
+                break;
+            case "0":
+                break;
+        }
+
     }
 
     public static void explorar(Tamagotchi pet){
