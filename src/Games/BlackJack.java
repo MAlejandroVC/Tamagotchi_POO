@@ -36,9 +36,17 @@ public class BlackJack {
             Baraja = Barajear(Baraja);
             int roundBet = apostar(dolares);
 
+            JOptionPane.showMessageDialog(null,
+                    "Tus cartas",
+                    "Jugador",
+                    JOptionPane.INFORMATION_MESSAGE);
             jugador += sacarCarta(Baraja, jugador, cartasJugador);
             jugador += sacarCarta(Baraja, jugador, cartasJugador);
 
+            JOptionPane.showMessageDialog(null,
+                    "La carta de ",
+                    "Jugador",
+                    JOptionPane.INFORMATION_MESSAGE);
             System.out.println(pet.getName() + "muestra:");
             tamagotchi += sacarCarta(Baraja, tamagotchi, casrtasTamagotchi);
             System.out.println(pet.getName() +"obtiene: " + tamagotchi);
