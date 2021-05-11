@@ -1,10 +1,7 @@
 import Classes.Species.Species;
 import Classes.Species.Subspecies;
 import Classes.Tamagotchi;
-import Games.BlackJack;
-import Games.C0necta4;
-import Games.Gato;
-import Games.Roshambo;
+import Games.*;
 
 import javax.swing.*;
 import java.io.*;
@@ -185,43 +182,40 @@ public class mein {
     }
 
     public static void jugar(Tamagotchi pet){
-
-        System.out.println(" ~~~~~~~~~~~~~~~ JUEGOS ~~~~~~~~~~~~~~~ ");
-        System.out.println(" 1. BlackJack           ");
-        System.out.println(" 2. Gato                ");
-        System.out.println(" 3. Pelota              ");
-        System.out.println(" 4. Connect 4               ");
-        System.out.println(" 5. Roshambo            ");
-        System.out.println(" 0. Cancelar            ");
-
-        String op;
-        Scanner reader = new Scanner(System.in);
-        op = reader.nextLine();
+        String op = JOptionPane.showInputDialog(null,
+                " ~~~~~~~~~~~~~~~ JUEGOS ~~~~~~~~~~~~~~~ \n" +
+                        " 1. BlackJack                           \n" +
+                        " 2. Gato                                \n" +
+                        " 3. Pelota                              \n" +
+                        " 4. Connect 4                           \n" +
+                        " 5. Roshambo                            \n" +
+                        " 0. Cancelar                            ",
+                "Juegos",
+                JOptionPane.PLAIN_MESSAGE);
         switch(op){
             case "1":
                 BlackJack.main(pet);
-                pet.play(20);
+                pet.play(25);
                 break;
             case "2":
                 Gato.main(pet);
-                pet.play(5);
+                pet.play(10);
                 break;
             case "3":
-
+                Pelota.main(pet);
+                pet.play(5);
                 break;
             case "4":
                 C0necta4.main(pet);
+                pet.play(15);
                 break;
             case "5":
                 Roshambo.main(pet);
-                pet.play(5);
-                break;
-            case "6":
+                pet.play(10);
                 break;
             case "0":
                 break;
         }
-
     }
 
     public static void explorar(Tamagotchi pet){
@@ -248,6 +242,7 @@ public class mein {
             if(name==null)
                 break;
             try{
+                decrypt(path + "\\saves\\" + name + ".txt");
                 breader = new BufferedReader(new FileReader(path + "\\saves\\" + name + ".txt"));
                 if(breader.readLine().equals("TamagotchiSave")) {
                     myPets[totalPets] = new Tamagotchi(
@@ -269,6 +264,7 @@ public class mein {
                             ""+breader.readLine());
                     totalPets++;
                 }
+                encrypt(path + "\\saves\\" + name +".txt");
             }catch(Exception e){
                 JOptionPane.showMessageDialog(null,
                         "No se pudo abrir el archivo",
@@ -309,6 +305,7 @@ public class mein {
                 bwriter.write(""+pet.getDna().getAgl()+"\n");
                 bwriter.write(""+pet.getDna().getLck()+"\n");
                 bwriter.close();
+                encrypt(path + "\\saves\\" + pet.getName() +".txt");
             }
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,
@@ -461,5 +458,17 @@ public class mein {
                 "Por favor, seleccione una opción válida",
                 "Opción invalida",
                 JOptionPane.ERROR_MESSAGE);
+    }
+
+    public static void encrypt(String path){
+        //abrir archivo
+        //encriptar archivo
+        //cerrar archivo
+    }
+
+    public static void decrypt(String path){
+        //abrir archivo
+        //desencriptar archivo
+        //cerrar archivo
     }
 }

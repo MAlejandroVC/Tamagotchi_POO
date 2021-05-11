@@ -5,6 +5,8 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import Classes.Tamagotchi;
 
+import javax.swing.*;
+
 public class BlackJack {
     public static final int DINERO = 100;
     public static final String[] palo = {"Hearts", "Spades", "Clubs", "Diamonds"};
@@ -21,7 +23,6 @@ public class BlackJack {
         List<Card> Baraja;
         Baraja = novaBaraja(palo, cartas);
         int dolares =	DINERO;
-        inicio(dolares);
         boolean jugar = true;
 
         while (dolares > 0 && jugar) {
@@ -33,15 +34,10 @@ public class BlackJack {
             List<Card> casrtasTamagotchi = new ArrayList<>();
 
             Baraja = Barajear(Baraja);
-            int roundBet = apostar(dolares, console);
+            int roundBet = apostar(dolares);
 
-
-            System.out.print("Primera Carta: ");
             jugador += sacarCarta(Baraja, jugador, cartasJugador);
-
-            System.out.print("Segunda Carta: ");
             jugador += sacarCarta(Baraja, jugador, cartasJugador);
-            System.out.println();
 
             System.out.println(pet.getName() + "muestra:");
             tamagotchi += sacarCarta(Baraja, tamagotchi, casrtasTamagotchi);
@@ -150,17 +146,28 @@ public class BlackJack {
         return gains_losses;
     }
 
-    public static int apostar(int money, Scanner console) {
-        System.out.println("Cuanto quieres apostar?");
-        int bet = Math.abs(console.nextInt());
+    public static int apostar(int money) {
+        int bet = Integer.parseInt(JOptionPane.showInputDialog(null,
+                "Dispones de: $" + money + "\n" +
+                        "Cuanto quieres apostar?",
+                "Apostar",
+                JOptionPane.QUESTION_MESSAGE));
+
         while(bet > money || bet < 10){
             if (bet < 10) {
-                System.out.println("Min $10");
+                bet = Integer.parseInt(JOptionPane.showInputDialog(null,
+                        "Apuesta mínima: $10 \n" +
+                                "Cuanto quieres apostar?",
+                        "Apostar",
+                        JOptionPane.WARNING_MESSAGE));
             } else {
-                System.out.println("ERROR Insuficientes fondos");
+                bet = Integer.parseInt(JOptionPane.showInputDialog(null,
+                        "Fondos insuficientes... \n " +
+                                "Dispones de: $" + money + "\n" +
+                                "Cuanto quieres apostar?",
+                        "Apostar",
+                        JOptionPane.WARNING_MESSAGE));
             }
-            System.out.println("Cuanto quieres apostar?");
-            bet = console.nextInt();
         }
         return bet;
     }
@@ -205,10 +212,6 @@ public class BlackJack {
         return false;
     }
 
-    public static void inicio(int money) {
-        System.out.println("Dispones: $" + money);
-    }
-
     public static class Card{
         private int value;
         private String name;
@@ -222,7 +225,10 @@ public class BlackJack {
         }
 
         public void printCard(){
-            System.out.println(this.name + " de" + this.suite);
+            JOptionPane.showMessageDialog(null,
+                    this.name + " de " + this.suite,
+                    "Carta",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
 
         public int giveValue(int playerTotal){
