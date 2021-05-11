@@ -1,7 +1,7 @@
 package Games;
 import Classes.Tamagotchi;
-import java.util.Scanner;
-import java.util.stream.IntStream;
+
+import javax.swing.*;
 
 public class C0necta4 {
     Tamagotchi pet;
@@ -11,8 +11,6 @@ public class C0necta4 {
     }
 
     public static void main(Tamagotchi pet) {
-        Scanner in = new Scanner(System.in);
-
         char[][] tablero = new char[6][7];
 
         //initialize array
@@ -23,18 +21,18 @@ public class C0necta4 {
         }
 
         int turno = 1;
-        char jugador = 'J';
+        char jugador = 'Ĵ';
         boolean ganador = false;
 
         while (!ganador && turno <= 42){
             boolean jvalido;
             int jugada;
             do {
-                if (jugador == 'J') {
-                    printTablero(tablero);
-
-                    System.out.print("Jugador " + jugador + ", Escoge una columna ");
-                    jugada = in.nextInt();
+                if (jugador == 'Ĵ') {
+                    jugada = Integer.parseInt(JOptionPane.showInputDialog(null,
+                            printTablero(tablero) + "Jugador Ĵ, Escoge una columna",
+                            "Tu turno",
+                            JOptionPane.QUESTION_MESSAGE));
 
                     jvalido = Validar(jugada,tablero);
                 }
@@ -47,7 +45,6 @@ public class C0necta4 {
 
             }while (!jvalido);
 
-
             for (int row = tablero.length-1; row >= 0; row--){
                 if(tablero[row][jugada] == ' '){
                     tablero[row][jugada] = jugador;
@@ -57,46 +54,59 @@ public class C0necta4 {
 
             ganador = Ganador(jugador,tablero);
 
-            if (jugador == 'J' && !ganador){
+            if (jugador == 'Ĵ' && !ganador){
                 jugador = pet.getName().charAt(0);
             }
             else if(jugador == pet.getName().charAt(0) && !ganador) {
-                jugador = 'J';
+                jugador = 'Ĵ';
             }
             turno++;
         }
 
-        printTablero(tablero);
+
+        JOptionPane.showMessageDialog(null,
+                "~~~ GAME OVER ~~~ \n"+printTablero(tablero),
+                "Tablero",
+                JOptionPane.PLAIN_MESSAGE);
 
         if (ganador){
-            if (jugador == 'J')
-            {
-                System.out.println("Gano jugador");
+            if (jugador == 'Ĵ') {
+                JOptionPane.showMessageDialog(null,
+                        "Ganó jugador",
+                        "Ganaste!",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
-            else
-            {
-                System.out.println("Gano" +  pet.getName());
+            else {
+                JOptionPane.showMessageDialog(null,
+                        "Ganó " +  pet.getName(),
+                        "Ganaste!",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         }else{
-            System.out.println("Empate");
+            JOptionPane.showMessageDialog(null,
+                    "Nadie ganó",
+                    "Empate",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
 
     }
 
-    public static void printTablero(char[][] grid){
-        System.out.println(" 0 1 2 3 4 5 6");
-        System.out.println("---------------");
+    public static String printTablero(char[][] grid){
+        String tablero = "";
+        tablero += " 0 1 2 3 4 5 6 \n";
+        tablero += "--------------- \n";
         for (char[] chars : grid) {
-            System.out.print("|");
+            tablero += "|";
             for (int col = 0; col < grid[0].length; col++) {
-                System.out.print(chars[col]);
-                System.out.print("|");
+                tablero += chars[col];
+                tablero += "|";
             }
-            System.out.println();
-            System.out.println("---------------");
+            tablero += "\n";
+            tablero += "--------------- \n";
         }
-        System.out.println(" 0 1 2 3 4 5 6");
-        System.out.println();
+        tablero += " 0 1 2 3 4 5 6 \n\n";
+
+        return tablero;
     }
 
     public static boolean Validar(int column, char[][] grid){

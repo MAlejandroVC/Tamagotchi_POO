@@ -1,6 +1,8 @@
 package Games;
+
 import Classes.Tamagotchi;
-import java.util.Scanner;
+
+import javax.swing.*;
 
 public class Gato {
     private int cuadros = 9;
@@ -9,32 +11,36 @@ public class Gato {
     private boolean master;
     Tamagotchi pet;
 
-    public Gato(Tamagotchi pet)
-    {
+    JTextField xField = new JTextField(5);
+    JTextField yField = new JTextField(5);
+    JPanel myPanel = new JPanel();
+
+    public Gato(Tamagotchi pet) {
         tabla = new String[3][3];
-        for(int x = 0; x < 3; x++)
-        {
-            for(int y = 0; y < 3; y++)
-            {
+        for(int x = 0; x < 3; x++) {
+            for(int y = 0; y < 3; y++) {
                 tabla[x][y] = " ";
             }
         }
-
         this.pet = pet;
+
+        myPanel.add(new JLabel("Fil(0-2):"));
+        myPanel.add(xField);
+        myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+        myPanel.add(new JLabel("Col(0-2):"));
+        myPanel.add(yField);
     }
 
-    public void tablero()
-    {
-        for(int x = 0; x < 3; x++)
-        {
-            System.out.print("|  ");
-            for(int y = 0; y < 3; y++)
-            {
-
-                System.out.print(tabla[x][y] + "  | ");
+    public String tablero() {
+        String tablero = "";
+        for(int x = 0; x < 3; x++) {
+            tablero += "| ";
+            for(int y = 0; y < 3; y++) {
+                tablero += tabla[x][y] + " | ";
             }
-            System.out.println();
+            tablero += "\n";
         }
+        return tablero;
     }
 
     public boolean GanadorAI() {
@@ -62,11 +68,15 @@ public class Gato {
     }
 
     public void Jugar() {
-
         int masterX;
         int masterY;
         int tamagotchiX;
         int tamagotchiY;
+
+        JOptionPane.showMessageDialog(null,
+            tablero(),
+            "Gato",
+            JOptionPane.PLAIN_MESSAGE);
 
         while (cuadros > 0 && !master && !tamagotchi) {
             boolean Ocupado;
@@ -75,22 +85,22 @@ public class Gato {
 
             do {
                 if (cuadros > 0) {
-                    Scanner reader = new Scanner(System.in);
                     do {
-                        System.out.print("Fila (0 - 2) ");
-                        masterX = Integer.parseInt(reader.nextLine());
-                        if (masterX < 0 || masterX > 2){
-                            System.out.println("Input no valido, ingrese un valor correcto");
-                        }
-                    } while (masterX < 0 || masterX > 2);
+                        JOptionPane.showMessageDialog(null,
+                                myPanel,
+                                "Tu turno",
+                                JOptionPane.PLAIN_MESSAGE);
 
-                    do {
-                        System.out.println("Columna (0 - 2)");
-                        masterY = Integer.parseInt(reader.nextLine());
-                        if (masterY < 0 || masterY > 2){
-                            System.out.println("Input no valido, ingrese un valor correcto");
-                        }
-                    } while (masterY < 0 || masterY > 2);
+                        masterX = Integer.parseInt(xField.getText());
+                        masterY = Integer.parseInt(yField.getText());
+
+                        if(masterX < 0 || masterX > 2 || masterY < 0 || masterY > 2)
+                            JOptionPane.showMessageDialog(null,
+                                    "Input invalido, intenta otra vez",
+                                    "ERROR",
+                                    JOptionPane.WARNING_MESSAGE);
+
+                    } while (masterX < 0 || masterX > 2 || masterY < 0 || masterY > 2);
 
                     if (!tabla[masterX][masterY].equals("O") && !tabla[masterX][masterY].equals("X")) {
                         tabla[masterX][masterY] = "X";
@@ -98,7 +108,10 @@ public class Gato {
                         Ocupado = true;
                     } else {
                         Ocupado = false;
-                        System.out.println("Espcio ocupado");
+                        JOptionPane.showMessageDialog(null,
+                                "Espacio ocupado",
+                                "ERROR",
+                                JOptionPane.WARNING_MESSAGE);
                     }
                 } else {
                     Ocupado = true;
@@ -108,8 +121,6 @@ public class Gato {
             tablero();
             master = GanadorUser();
             tamagotchi = GanadorAI();
-
-            System.out.println("Turno de " + pet.getName());
 
             do {
                 if (cuadros > 0) {
@@ -126,7 +137,11 @@ public class Gato {
                     Ocupado = true;
                 }
             } while (!Ocupado);
-            tablero();
+            JOptionPane.showMessageDialog(null,
+                    " ~~~ Turno de " + pet.getName() + " ~~~ \n" + tablero(),
+                    "Turno de " + pet.getName(),
+                    JOptionPane.PLAIN_MESSAGE
+                    );
             tamagotchi = GanadorAI();
             master = GanadorUser();
         }
@@ -134,15 +149,21 @@ public class Gato {
 
     public void Ganador() {
         if (master) {
-            System.out.println("Ganador Master");
+            JOptionPane.showMessageDialog(null,
+                    " ~~~ GAME OVER ~~~ \nGanador: Jugador",
+                    "Ganaste!",
+                    JOptionPane.PLAIN_MESSAGE);
         } else if (tamagotchi) {
-            System.out.println("Ganodor" + pet.getName());
+            JOptionPane.showMessageDialog(null,
+                    " ~~~ GAME OVER ~~~ \nGanodor" + pet.getName(),
+                    "Perdiste",
+                    JOptionPane.PLAIN_MESSAGE);
         } else if (cuadros == 0) {
-            System.out.println("Empate");
+            JOptionPane.showMessageDialog(null,
+                    " ~~~ GAME OVER ~~~ \nEmpate",
+                    "Empate",
+                    JOptionPane.PLAIN_MESSAGE);
         }
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Presione Enter para continuar");
-        String vacio = scan.nextLine();
     }
 
     public static void main(Tamagotchi pet) {
@@ -151,4 +172,3 @@ public class Gato {
         gato.Ganador();
     }
 }
-

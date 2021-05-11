@@ -1,7 +1,6 @@
 package Games;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.ArrayList;
 import Classes.Tamagotchi;
 
@@ -17,9 +16,7 @@ public class BlackJack {
         this.pet = pet;
     }
 
-
     public static void main(Tamagotchi pet)	{
-        Scanner console = new Scanner(System.in);
         List<Card> Baraja;
         Baraja = novaBaraja(palo, cartas);
         int dolares =	DINERO;
@@ -31,25 +28,31 @@ public class BlackJack {
             int tamagotchi = 0;
 
             List<Card> cartasJugador = new ArrayList<>();
-            List<Card> casrtasTamagotchi = new ArrayList<>();
+            List<Card> cartasTamagotchi = new ArrayList<>();
 
             Baraja = Barajear(Baraja);
             int roundBet = apostar(dolares);
 
-            jugador += sacarCarta(Baraja, jugador, cartasJugador);
-            jugador += sacarCarta(Baraja, jugador, cartasJugador);
+            JOptionPane.showMessageDialog(null,
+                    "Tus cartas",
+                    "Jugador",
+                    JOptionPane.INFORMATION_MESSAGE);
+            jugador += sacarCarta(Baraja, cartasJugador);
+            jugador += sacarCarta(Baraja, cartasJugador);
 
-            System.out.println(pet.getName() + "muestra:");
-            tamagotchi += sacarCarta(Baraja, tamagotchi, casrtasTamagotchi);
-            System.out.println(pet.getName() +"obtiene: " + tamagotchi);
+            JOptionPane.showMessageDialog(null,
+                    "La carta de " + pet.getName(),
+                    "" + pet.getName(),
+                    JOptionPane.INFORMATION_MESSAGE);
+            tamagotchi += sacarCarta(Baraja, cartasTamagotchi);
 
             boolean another_card;
             while (jugador < 21){
-                another_card = Hit(jugador, console);
+                another_card = Hit(jugador);
                 if (!another_card) {
                     break;
                 } else {
-                    jugador += sacarCarta(Baraja, tamagotchi, casrtasTamagotchi);
+                    jugador += sacarCarta(Baraja, cartasJugador);
                 }
 
                 for (Card playersCard : cartasJugador) {
@@ -59,16 +62,18 @@ public class BlackJack {
                 }
             }
 
+            JOptionPane.showMessageDialog(null,
+                    "Las cartas de " + pet.getName(),
+                    "" + pet.getName(),
+                    JOptionPane.INFORMATION_MESSAGE);
             while (tamagotchi < 17 && jugador < 21) {
-                System.out.println(pet.getName() + "muestra:" + tamagotchi);
                 Card dealerCard = Baraja.remove(0);
 
-                System.out.println(pet.getName() + "obtiene:");
                 dealerCard.printCard();
-                tamagotchi += dealerCard.giveValue(tamagotchi);
-                casrtasTamagotchi.add(dealerCard);
+                tamagotchi += dealerCard.giveValue();
+                cartasTamagotchi.add(dealerCard);
 
-                for (Card dealersCard : casrtasTamagotchi) {
+                for (Card dealersCard : cartasTamagotchi) {
                     if (dealersCard.casoAS() && tamagotchi > 21) {
                         jugador -= 10;
                     }
@@ -77,24 +82,24 @@ public class BlackJack {
 
             System.out.println();
             dolares += Ganador(jugador, tamagotchi, roundBet,pet);
-            jugar = jugarNovo(console, dolares);
+            jugar = jugarNovo(dolares);
         }
     }
 
-    public static int sacarCarta(List<Card> newDeck, int playerTotal, List<Card> playersCards){
+    public static int sacarCarta(List<Card> newDeck, List<Card> playersCards){
         int total = 0;
         Card playerCard1 = newDeck.remove(0);
         playerCard1.printCard();
-        total += playerCard1.giveValue(playerTotal);
+        total = playerCard1.giveValue();
         playersCards.add(playerCard1);
         return total;
     }
 
-    public static List<Card> novaBaraja(String[] suites, String[] name){
+    public static List<Card> novaBaraja(String[] suites, String[] names){
         List<Card> deck = new ArrayList<>();
         for (String suite : suites) {
-            for (String s : name) {
-                Card k = new Card(s, suite);
+            for (String name : names) {
+                Card k = new Card(name, suite);
                 deck.add(k);
             }
         }
@@ -116,31 +121,40 @@ public class BlackJack {
     public static int Ganador(int total, int tamagotchi, int to_play, Tamagotchi pet) {
         int gains_losses;
         if (total == 21) {
-            System.out.println("Tienes: " + total);
-            System.out.println("BlackJack!");
+            JOptionPane.showMessageDialog(null,
+                    "Tienes: 21 \n BlackJack!",
+                    "Ganaste!",
+                    JOptionPane.PLAIN_MESSAGE);
             gains_losses = 2 * to_play;
         } else if (total > 21) {
-            System.out.println("Tienes: " + total);
-            System.out.println("Sobrepasaste");
+            JOptionPane.showMessageDialog(null,
+                    "Tienes: " + total + "\nSobrepasaste",
+                    "Perdiste",
+                    JOptionPane.PLAIN_MESSAGE);
             gains_losses = -1 * to_play;
         } else if (total == tamagotchi) {
-            System.out.println("Tienes: " + total);
-            System.out.println( pet.getName() +  "tiene: " + tamagotchi);
-            System.out.println("Empate");
+            JOptionPane.showMessageDialog(null,
+                    "Tienes: " + total + "\n" + pet.getName() +  "tiene: " + tamagotchi,
+                    "Empate",
+                    JOptionPane.PLAIN_MESSAGE);
             gains_losses = 0;
         } else if (tamagotchi > 21) {
-            System.out.println(pet.getName() +  "tiene: " + tamagotchi);
-            System.out.println("sobrepaso  Ganaste!");
+            JOptionPane.showMessageDialog(null,
+                    pet.getName() +  "tiene: " + tamagotchi + "\nSobrepasó",
+                    "Ganaste!",
+                    JOptionPane.PLAIN_MESSAGE);
             gains_losses = 2 * to_play;
         } else if (total < tamagotchi) {
-            System.out.println("Tienes: " + total);
-            System.out.println(pet.getName() +  "tiene: " + tamagotchi);
-            System.out.println("Gana ");
+            JOptionPane.showMessageDialog(null,
+                    "Tienes: " + total + "\n" + pet.getName() +  "tiene: " + tamagotchi,
+                    "Perdiste",
+                    JOptionPane.PLAIN_MESSAGE);
             gains_losses = -1 * to_play;
         } else {
-            System.out.println("Tienes: " + total);
-            System.out.println(pet.getName() +  "tiene: " + tamagotchi);
-            System.out.println("Ganaste!");
+            JOptionPane.showMessageDialog(null,
+                    "Tienes: " + total + "\n" + pet.getName() +  "tiene: " + tamagotchi,
+                    "Ganaste!",
+                    JOptionPane.PLAIN_MESSAGE);
             gains_losses = 2 * to_play;
         }
         return gains_losses;
@@ -172,12 +186,12 @@ public class BlackJack {
         return bet;
     }
 
-    public static boolean Hit(int total, Scanner console){
+    public static boolean Hit(int total){
         boolean ans;
-        System.out.println();
-        System.out.println("Tienes: " + total);
-        System.out.println("Hit?" + "Presione Y o N");
-        String answer = console.next();
+        String answer = JOptionPane.showInputDialog(null,
+                "Tienes: " + total + "\nDeseas otra carta? (Y/N)",
+                "Hit or Stand",
+                JOptionPane.QUESTION_MESSAGE);
         if (answer.indexOf("y") == 0 || answer.indexOf("Y") == 0) {
             ans = true;
         } else if (answer.indexOf("n") == 0 || answer.indexOf("N") == 0) {
@@ -189,25 +203,31 @@ public class BlackJack {
         return ans;
     }
 
-    public static boolean jugarNovo(Scanner console, int money){
-        System.out.println("Tienes: $" + money);
+    public static boolean jugarNovo(int money){
         if (money == 0) {
-            System.out.println("Quebrado gana");
+            JOptionPane.showMessageDialog(null,
+                    "Te quedaste sin dinero! \nGAME OVER",
+                    "Perdiste",
+                    JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        System.out.println("Quieres jugar de nuevo?" + "Presione Y o N");
-        String answer = console.next();
+        String answer = JOptionPane.showInputDialog(null,
+                "Tienes: $" + money + "\nQuieres jugar de nuevo? (Y/N)");
         if (answer.indexOf("y") == 0 || answer.indexOf("Y") == 0) {
             return true;
         } else if (answer.indexOf("n") == 0 || answer.indexOf("N") == 0) {
             if (money > 100) {
-                System.out.println("Felicidades, Ganaste: $" + (money - 100));
+                JOptionPane.showMessageDialog(null,
+                        "Ganaste: $" + (100 - money),
+                        "Felicidades",
+                        JOptionPane.INFORMATION_MESSAGE);
             } else {
-                System.out.println("Perdiste: $" + (100 - money));
+                JOptionPane.showMessageDialog(null,
+                        "Perdiste: $" + (100 - money),
+                        "Chale",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
             return false;
-        } else {
-            System.out.println();
         }
         return false;
     }
@@ -231,7 +251,7 @@ public class BlackJack {
                     JOptionPane.INFORMATION_MESSAGE);
         }
 
-        public int giveValue(int playerTotal){
+        public int giveValue(){
             return this.value;
         }
 
@@ -240,20 +260,33 @@ public class BlackJack {
         }
 
         private int determineCardValue(String name) throws NumberFormatException{
-            int value;
-            try{
-                value = Integer.parseInt(name.substring(0,1));
-                return value;
-            } catch (NumberFormatException e){
-                if (name.charAt(0) == 'K' || name.charAt(0) == 'J' || name.charAt(0) == 'Q' || name.charAt(0) == '0'){
-                    value = 10;
-                } else if (name.charAt(0) =='A'){
-                    value = 11;
+            switch(name){
+                case "2":
+                    return 2;
+                case "3":
+                    return 3;
+                case "4":
+                    return 4;
+                case "5":
+                    return 5;
+                case "6":
+                    return 6;
+                case "7":
+                    return 7;
+                case "8":
+                    return 8;
+                case "9":
+                    return 9;
+                case "10":
+                case "J":
+                case "Q":
+                case "K":
+                    return 10;
+                case "A":
                     this.Ace = true;
-                } else {
-                    value = Integer.parseInt(name.substring(0, 1));
-                }
-                return value;
+                    return 11;
+                default:
+                    return 0;
             }
         }
     }

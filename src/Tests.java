@@ -4,38 +4,25 @@ import Classes.Species.Subspecies;
 import Classes.Tamagotchi;
 
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import javax.swing.plaf.FontUIResource;
+import java.awt.*;
 
 public class Tests {
     public static void main(String[] args) {
-        BufferedReader breader;
-        String name;
-        String path = JOptionPane.showInputDialog(null,
-                "Dirección del juego: \n" +
-                        "ej: C:\\Users\\Lenovo\\IdeaProjects\\Tamagotchi_POO\\src",
-                "Cargar Tamagotchis",
-                JOptionPane.PLAIN_MESSAGE);
-        while(true){
-            name = JOptionPane.showInputDialog(null,
-                    "Nombre del Tamagotchi:",
-                    "Cargar Tamagotchis",
-                    JOptionPane.PLAIN_MESSAGE);
-            if(name==null)
-                break;
-            try{
-                breader = new BufferedReader(new FileReader(path + "\\saves\\" + name + ".txt"));
-                if(breader.readLine().equals("TamagotchiSave"))
-                    for(int i=0; i<16; i++)
-                        System.out.println(i + ". " + breader.readLine());
-            }catch(Exception e){
-                JOptionPane.showMessageDialog(null,
-                        "No se pudo abrir el archivo",
-                        "Error!",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        }
+        UIManager.put("OptionPane.messageFont", new FontUIResource(new Font(
+                Font.MONOSPACED, Font.PLAIN, 12)));
+
+        Object[] options = {"Yes, please",
+                "No, thanks",
+                "No eggs, no ham!"};
+        int n = JOptionPane.showOptionDialog(null,//parent container of JOptionPane
+                "Would you like some green eggs to go "
+                        + "with that ham?",
+                "A Silly Question",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,//do not use a custom Icon
+                options,//the titles of buttons
+                options[2]);//default button title
     }
 }

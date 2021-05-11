@@ -4,11 +4,15 @@ import Classes.Tamagotchi;
 import Games.*;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
+import java.awt.*;
 import java.io.*;
 import java.util.Scanner;
 
 public class mein {
     public static void main(String[] args) {
+        UIManager.put("OptionPane.messageFont", new FontUIResource(new Font(Font.MONOSPACED, Font.PLAIN, 12)));
+        UIManager.put("OptionPane.buttonFont", new FontUIResource(new Font(Font.MONOSPACED, Font.PLAIN, 12)));
         int totalPets = 0;
         int currentPet = 0;
         Tamagotchi[] myPets = new Tamagotchi[64];
@@ -194,7 +198,7 @@ public class mein {
                 JOptionPane.PLAIN_MESSAGE);
         switch(op){
             case "1":
-                BlackJack.main(pet);
+                JackBlack.main(pet);
                 pet.play(25);
                 break;
             case "2":

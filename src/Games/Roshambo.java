@@ -1,12 +1,10 @@
 package Games;
 import Classes.Tamagotchi;
-import java.util.Scanner;
+
+import javax.swing.*;
 
 public class Roshambo {
-    public static final int
-            PIEDRA = 0,
-            PAPEL = 1,
-            TIGERAS = 2;
+    String[] options = {"Piedra", "Papel", "Tijeras"};
     private int ganador;
     Tamagotchi pet;
 
@@ -15,18 +13,27 @@ public class Roshambo {
     }
 
     public void Jugar() {
+        String op;
         int masterChoice;
-        int tamagotchiChoice = (int) Math.floor(Math.random()*(3-1+1)+1);
+        int tamagotchiChoice = (int) Math.floor(Math.random()*(3)+1);
 
-        Scanner scan = new Scanner(System.in);
-        do {
-            System.out.print("1- Piedra\n2- Papel\n3-Tijeras\nEscoje una opcion\n~>");
-            masterChoice = Integer.parseInt(scan.next());
-            if (masterChoice < 0 || masterChoice > 2){
-                System.out.println("Input no valido, ingrese un valor correcto");
-            }
-        } while (masterChoice < 0 || masterChoice > 2);
-
+        op = (String) JOptionPane.showInputDialog(null,
+                "Escoje una opcion:",
+                "Roshambo",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+        switch(op){
+            case "Piedra":
+                masterChoice = 0;
+                break;
+            case "Papel":
+                masterChoice = 1;
+                break;
+            default:
+                masterChoice = 2;
+        }
 
         if (masterChoice == 0 && tamagotchiChoice == 0) ganador = 2;
         if (masterChoice == 0 && tamagotchiChoice == 1) ganador = 1;
@@ -44,22 +51,35 @@ public class Roshambo {
     public void Ganador(){
         switch (ganador){
             case 0:
-                System.out.println("Ganador Master");
+                JOptionPane.showMessageDialog(null,
+                        " ~~~ GAME OVER ~~~ \n" +
+                                "Ganador: Jugador",
+                        "Ganaste!",
+                        JOptionPane.PLAIN_MESSAGE);
                 break;
             case 1:
-                System.out.println("Ganador" + pet.getName());
+                JOptionPane.showMessageDialog(null,
+                        " ~~~ GAME OVER ~~~ \n" +
+                                "Ganador: " + pet.getName(),
+                        "Perdiste",
+                        JOptionPane.PLAIN_MESSAGE);
                 break;
             case 2:
-                System.out.println("Empate");
+                JOptionPane.showMessageDialog(null,
+                        " ~~~ GAME OVER ~~~ \n" +
+                                "Ganador: Empate",
+                        "Empate",
+                        JOptionPane.PLAIN_MESSAGE);
                 break;
             default:
-                System.out.println("Inaccesible");
+                JOptionPane.showMessageDialog(null,
+                        " ~~~ GAME OVER ~~~ \n" +
+                                "Ganador: Inaccesible",
+                        "Inaccesible",
+                        JOptionPane.WARNING_MESSAGE);
                 break;
 
         }
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Presione Enter para continuar");
-        String vacio = scan.nextLine();
     }
 
     public static void main(Tamagotchi pet) {
