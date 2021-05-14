@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.io.*;
-import java.util.Scanner;
+import java.util.Objects;
 
 public class mein {
     public static void main(String[] args) {
@@ -514,14 +514,107 @@ public class mein {
     }
 
     public static void encrypt(String path){
-        //abrir archivo
-        //encriptar archivo
-        //cerrar archivo
+        final String secretKey = "Llave?secreta?secretiosa";
+        try{
+            BufferedReader breader;
+            breader = new BufferedReader(new FileReader(path));
+            String line1=  breader.readLine();
+            String line2=  breader.readLine();
+            String line3=  breader.readLine();
+            String line4=  breader.readLine();
+            String line5=  breader.readLine();
+            String line6= breader.readLine();
+            String line7= breader.readLine();
+            String line8= breader.readLine();
+            String line9= breader.readLine();
+            String line10= breader.readLine();
+            String line11= breader.readLine();
+            String line12= breader.readLine();
+            String line13= breader.readLine();
+            String line14= breader.readLine();
+            String line15= breader.readLine();
+            String line16= breader.readLine();
+            String line17= breader.readLine();
+
+            BufferedWriter bwriter;
+            bwriter = new BufferedWriter(new FileWriter(path));
+            bwriter.write(Objects.requireNonNull(AES.encrypt(line1, secretKey))+"\n");
+            bwriter.write(Objects.requireNonNull(AES.encrypt(line2, secretKey))+"\n");
+            bwriter.write(Objects.requireNonNull(AES.encrypt(line3, secretKey))+"\n");
+            bwriter.write(Objects.requireNonNull(AES.encrypt(line4, secretKey))+"\n");
+            bwriter.write(Objects.requireNonNull(AES.encrypt(line5, secretKey))+"\n");
+            bwriter.write(Objects.requireNonNull(AES.encrypt(line6, secretKey))+"\n");
+            bwriter.write(Objects.requireNonNull(AES.encrypt(line7, secretKey))+"\n");
+            bwriter.write(Objects.requireNonNull(AES.encrypt(line8, secretKey))+"\n");
+            bwriter.write(Objects.requireNonNull(AES.encrypt(line9, secretKey))+"\n");
+            bwriter.write(Objects.requireNonNull(AES.encrypt(line10, secretKey))+"\n");
+            bwriter.write(Objects.requireNonNull(AES.encrypt(line11, secretKey))+"\n");
+            bwriter.write(Objects.requireNonNull(AES.encrypt(line12, secretKey))+"\n");
+            bwriter.write(Objects.requireNonNull(AES.encrypt(line13, secretKey))+"\n");
+            bwriter.write(Objects.requireNonNull(AES.encrypt(line14, secretKey))+"\n");
+            bwriter.write(Objects.requireNonNull(AES.encrypt(line15, secretKey))+"\n");
+            bwriter.write(Objects.requireNonNull(AES.encrypt(line16, secretKey))+"\n");
+            bwriter.write(Objects.requireNonNull(AES.encrypt(line17, secretKey))+"\n");
+            bwriter.close();
+
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,
+                    "No se pudo encriptar el archivo",
+                    "Error!",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public static void decrypt(String path){
-        //abrir archivo
-        //desencriptar archivo
-        //cerrar archivo
+        final String secretKey = "Llave?secreta?secretiosa";
+        try{
+            BufferedReader breaderd;
+            breaderd = new BufferedReader(new FileReader(path));
+            String line1=  breaderd.readLine();
+            String line2=  breaderd.readLine();
+            String line3=  breaderd.readLine();
+            String line4=  breaderd.readLine();
+            String line5=  breaderd.readLine();
+            String line6= breaderd.readLine();
+            String line7= breaderd.readLine();
+            String line8= breaderd.readLine();
+            String line9= breaderd.readLine();
+            String line10= breaderd.readLine();
+            String line11= breaderd.readLine();
+            String line12= breaderd.readLine();
+            String line13= breaderd.readLine();
+            String line14= breaderd.readLine();
+            String line15= breaderd.readLine();
+            String line16= breaderd.readLine();
+            String line17= breaderd.readLine();
+
+            System.out.println();
+
+            BufferedWriter bwriterd;
+            bwriterd = new BufferedWriter(new FileWriter(path));
+            bwriterd.write(Objects.requireNonNull(AES.decrypt(line1, secretKey))+"\n");
+            bwriterd.write(Objects.requireNonNull(AES.decrypt(line2, secretKey))+"\n");
+            bwriterd.write(Objects.requireNonNull(AES.decrypt(line3, secretKey))+"\n");
+            bwriterd.write(Objects.requireNonNull(AES.decrypt(line4, secretKey))+"\n");
+            bwriterd.write(Objects.requireNonNull(AES.decrypt(line5, secretKey))+"\n");
+            bwriterd.write(Objects.requireNonNull(AES.decrypt(line6, secretKey))+"\n");
+            bwriterd.write(Objects.requireNonNull(AES.decrypt(line7, secretKey))+"\n");
+            bwriterd.write(Objects.requireNonNull(AES.decrypt(line8, secretKey))+"\n");
+            bwriterd.write(Objects.requireNonNull(AES.decrypt(line9, secretKey))+"\n");
+            bwriterd.write(Objects.requireNonNull(AES.decrypt(line10, secretKey))+"\n");
+            bwriterd.write(Objects.requireNonNull(AES.decrypt(line11, secretKey))+"\n");
+            bwriterd.write(Objects.requireNonNull(AES.decrypt(line12, secretKey))+"\n");
+            bwriterd.write(Objects.requireNonNull(AES.decrypt(line13, secretKey))+"\n");
+            bwriterd.write(Objects.requireNonNull(AES.decrypt(line14, secretKey))+"\n");
+            bwriterd.write(Objects.requireNonNull(AES.decrypt(line15, secretKey))+"\n");
+            bwriterd.write(Objects.requireNonNull(AES.decrypt(line16, secretKey))+"\n");
+            bwriterd.write(Objects.requireNonNull(AES.decrypt(line17, secretKey))+"\n");
+            bwriterd.close();
+    }catch(Exception e){
+            JOptionPane.showMessageDialog(null,
+                    "No se pudo decriptar el archivo",
+                    "Error!",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
