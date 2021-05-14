@@ -2,12 +2,12 @@ TamagotchiSave
 testGod
 GOD
 GOD
-0
+10
 500
 250
 250
-494
-94
+500
+100
 10
 10
 10

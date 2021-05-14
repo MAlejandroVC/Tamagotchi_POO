@@ -44,7 +44,7 @@ public class JackBlack {
                                 "Blackjack! Ganaste!",
                         "Blackjack!",
                         JOptionPane.PLAIN_MESSAGE);
-                money += 2*apuesta;
+                money += apuesta;
             } else if(playerH.getValue() > 21) {
                 JOptionPane.showMessageDialog(null,
                         "Tu mano: \n" + playerH + "\n" +
@@ -79,7 +79,7 @@ public class JackBlack {
                                 pet.getName() + " se excedió.",
                         "Ganaste!",
                         JOptionPane.PLAIN_MESSAGE);
-                money += 2*apuesta;
+                money += apuesta;
             } else if(playerH.getValue() > houseH.getValue()) {
                 JOptionPane.showMessageDialog(null,
                         "Tu mano: \n" + playerH + "\n" +
@@ -87,7 +87,7 @@ public class JackBlack {
                                 "Tu mano es mejor. Ganaste!",
                         "Ganaste!",
                         JOptionPane.PLAIN_MESSAGE);
-                money += 2*apuesta;
+                money += apuesta;
             } else {
                 JOptionPane.showMessageDialog(null,
                         "Tu mano: \n" + playerH + "\n" +
@@ -97,7 +97,13 @@ public class JackBlack {
                         JOptionPane.PLAIN_MESSAGE);
                 money -= apuesta;
             }
-            if(JOptionPane.showOptionDialog(null,
+            if(money <= 0)
+                JOptionPane.showMessageDialog(null,
+                        " ~~~ GAME OVER ~~~ \n" +
+                                "Te quedaste sin fondos",
+                        "Broke",
+                        JOptionPane.WARNING_MESSAGE);
+            else if(JOptionPane.showOptionDialog(null,
                     "Quieres seguir jugando?",
                     "Blackjack",
                     JOptionPane.YES_NO_OPTION,
@@ -172,6 +178,8 @@ public class JackBlack {
         ArrayList<Card> cards = new ArrayList<>();
 
         public void hit(ArrayList<Card> deck){
+            if(deck.isEmpty())
+                newDeck(deck);
             cards.add(deck.remove(0));
         }
 

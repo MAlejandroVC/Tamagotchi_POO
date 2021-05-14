@@ -2,6 +2,7 @@ import Classes.Species.Species;
 import Classes.Species.Subspecies;
 import Classes.Tamagotchi;
 import Games.*;
+import Pokemon.Poke;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
@@ -57,7 +58,7 @@ public class mein {
                     explorar(myPets[currentPet]);
                     break;
                 case "7":
-                    pelear();
+                    pelear(myPets[currentPet]);
                     break;
                 case "8":
                     totalPets = load(myPets, totalPets);
@@ -226,8 +227,55 @@ public class mein {
         System.out.println(pet.getName() + "esta explorando");
     }
 
-    public static void pelear(){
-        System.out.println("Pelea");
+    public static void pelear(Tamagotchi pet){
+        while(true) {
+            int op = Poke.printMenu();
+            switch (op) {
+                case 1: //entrenamiento
+                    Poke.train(pet);
+                    break;
+                case 2: //torre lvl 1
+                    Poke.torre(pet, 1);
+                    break;
+                case 3: //torre lvl 5
+                    if(pet.getLvl() < 5){
+                        JOptionPane.showMessageDialog(null,
+                                "Tienes que ser nivel 5 para entrar",
+                                "Nivel insuficiente",
+                                JOptionPane.WARNING_MESSAGE);
+                        break;
+                    }
+                    Poke.torre(pet, 5);
+                    break;
+                case 4: //torre lvl 10
+                    if(pet.getLvl() < 10){
+                        JOptionPane.showMessageDialog(null,
+                                "Tienes que ser nivel 10 para entrar",
+                                "Nivel insuficiente",
+                                JOptionPane.WARNING_MESSAGE);
+                        break;
+                    }
+                    Poke.torre(pet, 10);
+                    break;
+                case 5: //torre ∞
+                    if(pet.getLvl() < 10){
+                        JOptionPane.showMessageDialog(null,
+                                "Tienes que ser nivel 10 para entrar",
+                                "Nivel insuficiente",
+                                JOptionPane.WARNING_MESSAGE);
+                        break;
+                    }
+                    Poke.infinite(pet);
+                    break;
+                case 0: //salir
+                    return;
+                default:
+                    JOptionPane.showMessageDialog(null,
+                            "Selección invalida",
+                            "Invalido",
+                            JOptionPane.WARNING_MESSAGE);
+            }
+        }
     }
 
     public static int load(Tamagotchi[] myPets, int totalPets){
@@ -374,6 +422,7 @@ public class mein {
                             "Ingresa el nivel nuevo",
                             "Cambiar de nivel",
                             JOptionPane.QUESTION_MESSAGE);
+                    pet.setLvl(Integer.parseInt(op2));
                     break;
                 case "2":
                     op2 = JOptionPane.showInputDialog(null,

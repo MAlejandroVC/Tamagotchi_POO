@@ -33,7 +33,7 @@ public class Tamagotchi {
         this.dna = dna;
 
         age = 0;
-        lvl = 0;
+        lvl = 1;
         max_hunger = 50*dna.End;
         hunger = max_hunger;
         max_hp = 25*dna.End;
@@ -54,7 +54,7 @@ public class Tamagotchi {
         this.dna = new SPECIAL(Species.high_end(species), Species.low_end(species));
 
         age = 0;
-        lvl = 0;
+        lvl = 1;
         max_hunger = 50*dna.End;
         hunger = max_hunger;
         max_hp = 25*dna.End;
@@ -96,6 +96,29 @@ public class Tamagotchi {
                 Integer.parseInt(L));
 
         this.update();
+    }
+
+    public Tamagotchi(String name, int lvl){
+        if(lvl > 10) lvl = 10;
+
+        this.name = name;
+        this.species = Species.REPTIL;
+        this.subspecies = Subspecies.COMODO;
+        this.dna = new SPECIAL(lvl, lvl, lvl, lvl, lvl, lvl, lvl);
+
+        age = 0;
+        this.lvl = lvl;
+        max_hunger = 50*dna.End;
+        hunger = max_hunger;
+        max_hp = 25*dna.End;
+        hp = max_hp;
+        happiness = 100;
+
+        last_fed = born;
+        last_play = born;
+
+        isHungry = false;
+        isDepressed = false;
     }
 
     public String getName() {
@@ -164,7 +187,7 @@ public class Tamagotchi {
     }
 
     private void setHp(int hp) {
-        this.hp += hp;
+        this.hp = hp;
         if(this.hp > max_hp)
             this.hp = max_hp;
         if(this.hp <= 0)
@@ -201,9 +224,8 @@ public class Tamagotchi {
     }
 
     public void kill(){
-        System.out.println(this.name + "ha muerto!");
         JOptionPane.showMessageDialog(null,
-                this.name + "ha muerto!",
+                this.name + " ha muerto!",
                 "Uh Oh!",
                 JOptionPane.WARNING_MESSAGE);
     }
@@ -220,6 +242,10 @@ public class Tamagotchi {
 
     public void heal(int healing){
         setHp(getHp()+healing);
+    }
+
+    public void damage(int dmg){
+        setHp(getHp()-dmg);
     }
 
     public static Tamagotchi procrear(Tamagotchi pareja1, Tamagotchi pareja2){
