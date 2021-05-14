@@ -28,9 +28,9 @@ public enum Species{
                 return new SPECIAL(2,4,5,1,2,3,1);
             case MAGICO:
                 return new SPECIAL(4,2,5,2,4,3,3);
-            default:
-                return new SPECIAL(0,0,0,0,0,0,0);
         }
+        System.out.println("ERROR");
+        return null;
     }
 
     public static SPECIAL high_end(Species species_id){
@@ -49,27 +49,33 @@ public enum Species{
                 return new SPECIAL(7,7,10,5,5,6,9);
             case MAGICO:
                 return new SPECIAL(10,7,10,8,10,8,10);
-            default:
-                return new SPECIAL(9,9,9,9,9,9,9);
         }
+        System.out.println("ERROR");
+        return null;
     }
 
     public static Species selectSpecies(){
-        int op = Integer.parseInt(JOptionPane.showInputDialog(null,
-                "Acuatico   = 1\n" +
-                        "Ave        = 2\n" +
-                        "Canino     = 3\n" +
-                        "Felino     = 4\n" +
-                        "Reptil     = 5",
-                "Selecciona la especie",
-                JOptionPane.QUESTION_MESSAGE));
-        switch(op){
-            case -1: return GOD;
-            case 1: return ACUATICO;
-            case 2: return AVE;
-            case 3: return CANINO;
-            case 4: return FELINO;
-            default: return REPTIL;
+        while(true){
+            int op = Integer.parseInt(JOptionPane.showInputDialog(null,
+                    "Acuatico   = 1\n" +
+                            "Ave        = 2\n" +
+                            "Canino     = 3\n" +
+                            "Felino     = 4\n" +
+                            "Reptil     = 5",
+                    "Selecciona la especie",
+                    JOptionPane.QUESTION_MESSAGE));
+            switch(op){
+                case -1: return GOD;
+                case 1: return ACUATICO;
+                case 2: return AVE;
+                case 3: return CANINO;
+                case 4: return FELINO;
+                case 5: return REPTIL;
+                default: JOptionPane.showMessageDialog(null,
+                        "Opción inválida \n  Vuelve a intnetar",
+                        "Invalido",
+                        JOptionPane.WARNING_MESSAGE);
+            }
         }
     }
 
@@ -80,7 +86,10 @@ public enum Species{
             case "AVE":         return AVE;
             case "CANINO":      return CANINO;
             case "FELINO":      return FELINO;
-            default:            return REPTIL;
+            case "REPTIL":      return REPTIL;
+            case "MAGICO":      return MAGICO;
         }
+        System.out.println("ERROR");
+        return null;
     }
 }

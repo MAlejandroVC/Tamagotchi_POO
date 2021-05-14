@@ -1,4 +1,4 @@
-package Pokemon;
+package Games;
 import Classes.Tamagotchi;
 
 import javax.swing.*;

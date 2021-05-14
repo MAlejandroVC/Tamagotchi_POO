@@ -1,22 +1,14 @@
-import Classes.Species.Species;
-import Classes.Species.Subspecies;
-import Classes.Tamagotchi;
-import Games.*;
-import Pokemon.Poke;
+import Classes.MyPets;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
-import java.io.*;
-import java.util.Objects;
 
 public class mein {
     public static void main(String[] args) {
         UIManager.put("OptionPane.messageFont", new FontUIResource(new Font(Font.MONOSPACED, Font.PLAIN, 12)));
         UIManager.put("OptionPane.buttonFont", new FontUIResource(new Font(Font.MONOSPACED, Font.PLAIN, 12)));
-        int totalPets = 0;
-        int currentPet = 0;
-        Tamagotchi[] myPets = new Tamagotchi[64];
+        MyPets myPets = new MyPets();
 
         //aqui va a ser el loop del juego
         String op;
@@ -38,367 +30,49 @@ public class mein {
                     JOptionPane.QUESTION_MESSAGE);
             switch(op){
                 case "1":
-                    newPet(myPets, totalPets);
-                    totalPets++;
+                    myPets.newPet();
                     break;
                 case "2":
-                    currentPet = select(myPets, totalPets);
+                    myPets.select();
                     break;
                 case "3":
-                    view(myPets[currentPet]);
+                    myPets.viewCurrent();
                     break;
                 case "4":
-                    comer(myPets[currentPet]);
+                    myPets.comer();
                     break;
                 case "5":
-                    jugar(myPets[currentPet]);
+                    myPets.jugar();
                     break;
                 case "6":
-                    pelear(myPets[currentPet]);
+                    myPets.pelear();
                     break;
                 case "7":
-                    totalPets = load(myPets, totalPets);
+                    myPets.load();
                     break;
                 case "8":
-                    save(myPets, totalPets);
+                    myPets.save();
                     break;
                 case "0":
-                    save(myPets, totalPets);
+                    myPets.save();
                     playing = false;
                     break;
                 case "-1":
-                    totalPets += devTools(myPets, currentPet, totalPets);
+                    devTools(myPets);
                     break;
                 default:
                     errorMessage();
             }
             //update
-            for(int i=0; i<totalPets; i++)
-                myPets[i].update();
+            myPets.update();
             //procrear
-            totalPets += procrear(myPets, totalPets);
+            myPets.procrear();
         }
     }
 
-    public static void newPet(Tamagotchi[] array, int total){
-        Species species = Species.selectSpecies();
-        Subspecies subspecies = Subspecies.selectSubspecies(species);
-        String name = JOptionPane.showInputDialog(null,
-                "Ingresa un nombre",
-                "Crear un Tamagotchi nuevo",
-                JOptionPane.QUESTION_MESSAGE);
-        array[total] = new Tamagotchi(name, species, subspecies);
-    }
-
-    public static int select(Tamagotchi[] array, int total){
-        if(total == 0) {
-            JOptionPane.showMessageDialog(null,
-                    "No hay mascotas, crea una nueva o carga de un archivo",
-                    "Tamagotchis no encontrados",
-                    JOptionPane.WARNING_MESSAGE);
-            return 0;
-        }
-        StringBuilder strMascotas = new StringBuilder();
-        for(int i=0; i<total; i++)
-            strMascotas.append(i + 1).append(". ").append(array[i].getName()).append("\n");
-        strMascotas.append("0. Cancelar");
-        int op = Integer.parseInt(JOptionPane.showInputDialog(null,
-                strMascotas,
-                "Selecciona una mascota",
-                JOptionPane.PLAIN_MESSAGE));
-        if(op<1 || op>total)
-            return 0;
-        op--;
-        return op;
-    }
-
-    public static void view(Tamagotchi pet){
-        JOptionPane.showMessageDialog(null,
-                "Nombre:    " + pet.getName() + "\n" +
-                        "Nivel:     " + pet.getLvl()+ "\n" +
-                        "Salud:     " + pet.getHp() + "/" + pet.getMaxHp()+ "\n" +
-                        "Hambre:    " + pet.getHunger() + "/" + pet.getMaxHunger()+ "\n" +
-                        "Felicidad: " + pet.getHappiness() + "/100"+ "\n" +
-                        "Edad:      " + pet.getAge()+ "\n" +
-                        "Especie:   " + pet.getSpecies()+ "\n" +
-                        "SPECIAL:   " + pet.getDna(),
-                "Ver a mi Tamagotchi",
-                JOptionPane.PLAIN_MESSAGE);
-    }
-
-    public static void comer(Tamagotchi pet){
-        String op;
-        //Scanner reader = new Scanner(System.in);
-        boolean eating = true;
-        while(eating) {
-            op = JOptionPane.showInputDialog(null,
-                    " ~~~ " + pet.getName() + ": " + pet.getHunger() + "/" + pet.getMaxHunger() + " ~~~ \n"+
-                            " ~~~~~~~~~~~~ MENU COMIDA ~~~~~~~~~~~~  \n"+
-                            " 1. Manzana                       (10)  \n"+
-                            " 2. Galleta                       (10)  \n"+
-                            " 3. Sandwich                      (25)  \n"+
-                            " 4. Sopa                          (30)  \n"+
-                            " 5. Carne asada                   (50)  \n"+
-                            " 6. Hamburguesa                   (60)  \n"+
-                            " 7. Pastel                        (75)  \n"+
-                            " 8. Tacos                         (90)  \n"+
-                            " 9. Lox meat pie                 (100)  \n"+
-                            " 0. Salir                               \n",
-                    "Alimentar Tamagotchi",
-                    JOptionPane.QUESTION_MESSAGE);
-            switch (op) {
-                case "1":
-                case "2":
-                    pet.feed(10);
-                    break;
-                case "3":
-                    pet.feed(25);
-                    break;
-                case "4":
-                    pet.feed(30);
-                    break;
-                case "5":
-                    pet.feed(50);
-                    break;
-                case "6":
-                    pet.feed(60);
-                    break;
-                case "7":
-                    pet.feed(75);
-                    break;
-                case "8":
-                    pet.feed(90);
-                    break;
-                case "9":
-                    pet.feed(100);
-                    break;
-                case "0":
-                    eating = false;
-                    break;
-                default:
-                    //System.out.println(" !!! OPCION INVALIDA !!! ");
-                    errorMessage();
-            }
-        }
-    }
-
-    public static void jugar(Tamagotchi pet){
-        String op = JOptionPane.showInputDialog(null,
-                " ~~~~~~~~~~~~~~~ JUEGOS ~~~~~~~~~~~~~~~ \n" +
-                        " 1. BlackJack                           \n" +
-                        " 2. Gato                                \n" +
-                        " 3. Pelota                              \n" +
-                        " 4. Connect 4                           \n" +
-                        " 5. Roshambo                            \n" +
-                        " 0. Cancelar                            ",
-                "Juegos",
-                JOptionPane.PLAIN_MESSAGE);
-        switch(op){
-            case "1":
-                JackBlack.main(pet);
-                pet.play(25);
-                break;
-            case "2":
-                Gato.main(pet);
-                pet.play(10);
-                break;
-            case "3":
-                Pelota.main(pet);
-                pet.play(5);
-                break;
-            case "4":
-                C0necta4.main(pet);
-                pet.play(15);
-                break;
-            case "5":
-                Roshambo.main(pet);
-                pet.play(10);
-                break;
-            case "0":
-                break;
-        }
-    }
-
-    public static void pelear(Tamagotchi pet){
-        while(true) {
-            int op = Poke.printMenu();
-            switch (op) {
-                case 1: //entrenamiento
-                    Poke.train(pet);
-                    break;
-                case 2: //torre lvl 1
-                    Poke.torre(pet, 1);
-                    break;
-                case 3: //torre lvl 5
-                    if(pet.getLvl() < 5){
-                        JOptionPane.showMessageDialog(null,
-                                "Tienes que ser nivel 5 para entrar",
-                                "Nivel insuficiente",
-                                JOptionPane.WARNING_MESSAGE);
-                        break;
-                    }
-                    Poke.torre(pet, 5);
-                    break;
-                case 4: //torre lvl 10
-                    if(pet.getLvl() < 10){
-                        JOptionPane.showMessageDialog(null,
-                                "Tienes que ser nivel 10 para entrar",
-                                "Nivel insuficiente",
-                                JOptionPane.WARNING_MESSAGE);
-                        break;
-                    }
-                    Poke.torre(pet, 10);
-                    break;
-                case 5: //torre ∞
-                    if(pet.getLvl() < 10){
-                        JOptionPane.showMessageDialog(null,
-                                "Tienes que ser nivel 10 para entrar",
-                                "Nivel insuficiente",
-                                JOptionPane.WARNING_MESSAGE);
-                        break;
-                    }
-                    Poke.infinite(pet);
-                    break;
-                case 0: //salir
-                    return;
-                default:
-                    JOptionPane.showMessageDialog(null,
-                            "Selección invalida",
-                            "Invalido",
-                            JOptionPane.WARNING_MESSAGE);
-            }
-        }
-    }
-
-    public static int load(Tamagotchi[] myPets, int totalPets){
-        BufferedReader breader;
-        String name;
-        String path = JOptionPane.showInputDialog(null,
-                "Dirección del juego: \n" +
-                        "ej: C:\\Users\\Lenovo\\IdeaProjects\\Tamagotchi_POO\\src",
-                "Cargar Tamagotchis",
-                JOptionPane.PLAIN_MESSAGE);
-        while(true){
-            name = JOptionPane.showInputDialog(null,
-                    "Nombre del Tamagotchi:",
-                    "Cargar Tamagotchis",
-                    JOptionPane.PLAIN_MESSAGE);
-            if(name==null)
-                break;
-            try{
-                decrypt(path + "\\saves\\" + name + ".txt");
-                breader = new BufferedReader(new FileReader(path + "\\saves\\" + name + ".txt"));
-                if(breader.readLine().equals("TamagotchiSave")) {
-                    myPets[totalPets] = new Tamagotchi(
-                            ""+breader.readLine(),
-                            ""+breader.readLine(),
-                            ""+breader.readLine(),
-                            ""+breader.readLine(),
-                            ""+breader.readLine(),
-                            ""+breader.readLine(),
-                            ""+breader.readLine(),
-                            ""+breader.readLine(),
-                            ""+breader.readLine(),
-                            ""+breader.readLine(),
-                            ""+breader.readLine(),
-                            ""+breader.readLine(),
-                            ""+breader.readLine(),
-                            ""+breader.readLine(),
-                            ""+breader.readLine(),
-                            ""+breader.readLine());
-                    totalPets++;
-                }
-                encrypt(path + "\\saves\\" + name +".txt");
-            }catch(Exception e){
-                JOptionPane.showMessageDialog(null,
-                        "No se pudo abrir el archivo",
-                        "Error!",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        return totalPets;
-    }
-
-    public static void save(Tamagotchi[] myPets, int totalPets){
-        BufferedWriter bwriter;
-        Tamagotchi pet;
-        String path = JOptionPane.showInputDialog(null,
-                "Dirección del juego: \n" +
-                        "ej: C:\\Users\\Lenovo\\IdeaProjects\\Tamagotchi_POO\\src",
-                "Guardar Tamagotchis",
-                JOptionPane.PLAIN_MESSAGE);
-        try{
-            for(int i=0; i<totalPets; i++){
-                pet = myPets[i];
-                bwriter = new BufferedWriter(new FileWriter(path + "\\saves\\" + pet.getName() +".txt"));
-                bwriter.write("TamagotchiSave\n");
-                bwriter.write(""+pet.getName()+"\n");
-                bwriter.write(""+pet.getSpecies()+"\n");
-                bwriter.write(""+pet.getSubspecies()+"\n");
-                bwriter.write(""+pet.getLvl()+"\n");
-                bwriter.write(""+pet.getMaxHunger()+"\n");
-                bwriter.write(""+pet.getMaxHp()+"\n");
-                bwriter.write(""+pet.getHp()+"\n");
-                bwriter.write(""+pet.getHunger()+"\n");
-                bwriter.write(""+pet.getHappiness()+"\n");
-                bwriter.write(""+pet.getDna().getStr()+"\n");
-                bwriter.write(""+pet.getDna().getPer()+"\n");
-                bwriter.write(""+pet.getDna().getEnd()+"\n");
-                bwriter.write(""+pet.getDna().getCha()+"\n");
-                bwriter.write(""+pet.getDna().getInt()+"\n");
-                bwriter.write(""+pet.getDna().getAgl()+"\n");
-                bwriter.write(""+pet.getDna().getLck()+"\n");
-                bwriter.close();
-                encrypt(path + "\\saves\\" + pet.getName() +".txt");
-            }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null,
-                    "No se pudo crear el archivo",
-                    "Error!",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public static int skip(Tamagotchi[] myPets, int totalPets){
-        int petsBorn = 0;
-        int turns = Integer.parseInt(JOptionPane.showInputDialog(null,
-                "Ingresa cuantos turnos quieres saltar",
-                "Skip",
-                JOptionPane.QUESTION_MESSAGE))-1;
-        for(int i=0; i<turns; i++){
-            for(int j=0; j<totalPets; j++) {
-                myPets[j].update();
-                petsBorn += procrear(myPets, totalPets);
-            }
-        }
-        return petsBorn;
-    }
-
-    public static int procrear(Tamagotchi[] myPets, int totalPets){
-        if(totalPets > 1) {
-            for (int i = 0; i < totalPets - 1; i++) { //i
-                for (int j = i + 1; j < totalPets; j++) { //j
-                    if(totalPets > 63)
-                        return 0;
-                    myPets[totalPets] = Tamagotchi.procrear(myPets[i], myPets[j]);
-                    if (myPets[totalPets] != null){
-                        JOptionPane.showMessageDialog(null,
-                                "Nació un tamagotchi nuevo! Ve a conocerlo",
-                                "Nuevo Tamagotchi",
-                                JOptionPane.INFORMATION_MESSAGE);
-                        return 1;
-                    }
-                }
-            }
-        }
-        return 0;
-    }
-
-    public static int devTools(Tamagotchi[] myPets, int currentPet,int totalPets){
-        int petsBorn = 0;
+    public static void devTools(MyPets myPets){
         String op, op2, op3;
         boolean dev = true;
-        Tamagotchi pet = myPets[currentPet];
         while(dev){
             op = JOptionPane.showInputDialog(null,
                     """
@@ -418,7 +92,7 @@ public class mein {
                             "Ingresa el nivel nuevo",
                             "Cambiar de nivel",
                             JOptionPane.QUESTION_MESSAGE);
-                    pet.setLvl(Integer.parseInt(op2));
+                    myPets.getCurrentPet().setLvl(Integer.parseInt(op2));
                     break;
                 case "2":
                     op2 = JOptionPane.showInputDialog(null,
@@ -431,67 +105,67 @@ public class mein {
                                     "Ingresa el nuevo STR",
                                     "Cambiar de SPECIAL",
                                     JOptionPane.QUESTION_MESSAGE);
-                            pet.getDna().setStr(Integer.parseInt(op3));
+                            myPets.getCurrentPet().getDna().setStr(Integer.parseInt(op3));
                             break;
                         case "P":
                             op3 = JOptionPane.showInputDialog(null,
                                     "Ingresa el nuevo PER",
                                     "Cambiar de SPECIAL",
                                     JOptionPane.QUESTION_MESSAGE);
-                            pet.getDna().setPer(Integer.parseInt(op3));
+                            myPets.getCurrentPet().getDna().setPer(Integer.parseInt(op3));
                             break;
                         case "E":
                             op3 = JOptionPane.showInputDialog(null,
                                     "Ingresa el nuevo END",
                                     "Cambiar de SPECIAL",
                                     JOptionPane.QUESTION_MESSAGE);
-                            pet.getDna().setEnd(Integer.parseInt(op3));
+                            myPets.getCurrentPet().getDna().setEnd(Integer.parseInt(op3));
                             break;
                         case "C":
                             op3 = JOptionPane.showInputDialog(null,
                                     "Ingresa el nuevo CHA",
                                     "Cambiar de SPECIAL",
                                     JOptionPane.QUESTION_MESSAGE);
-                            pet.getDna().setCha(Integer.parseInt(op3));
+                            myPets.getCurrentPet().getDna().setCha(Integer.parseInt(op3));
                             break;
                         case "I":
                             op3 = JOptionPane.showInputDialog(null,
                                     "Ingresa el nuevo INT",
                                     "Cambiar de SPECIAL",
                                     JOptionPane.QUESTION_MESSAGE);
-                            pet.getDna().setInt(Integer.parseInt(op3));
+                            myPets.getCurrentPet().getDna().setInt(Integer.parseInt(op3));
                             break;
                         case "A":
                             op3 = JOptionPane.showInputDialog(null,
                                     "Ingresa el nuevo AGL",
                                     "Cambiar de SPECIAL",
                                     JOptionPane.QUESTION_MESSAGE);
-                            pet.getDna().setAgl(Integer.parseInt(op3));
+                            myPets.getCurrentPet().getDna().setAgl(Integer.parseInt(op3));
                             break;
                         case "L":
                             op3 = JOptionPane.showInputDialog(null,
                                     "Ingresa el nuevo LCK",
                                     "Cambiar de SPECIAL",
                                     JOptionPane.QUESTION_MESSAGE);
-                            pet.getDna().setLck(Integer.parseInt(op3));
+                            myPets.getCurrentPet().getDna().setLck(Integer.parseInt(op3));
                             break;
                     }
                     break;
                 case "3":
-                    pet.heal(pet.getMaxHp());
-                    pet.feed(pet.getMaxHunger());
-                    pet.play(100);
+                    myPets.getCurrentPet().heal(myPets.getCurrentPet().getMaxHp());
+                    myPets.getCurrentPet().feed(myPets.getCurrentPet().getMaxHunger());
+                    myPets.getCurrentPet().play(100);
                     JOptionPane.showMessageDialog(null,
                             "Tamagotchi al 100",
                             "Tamagotchi Feliz",
                             JOptionPane.INFORMATION_MESSAGE);
                     break;
                 case "4":
-                    currentPet = select(myPets, totalPets);
-                    view(myPets[currentPet]);
+                    myPets.select();
+                    myPets.viewCurrent();
                     break;
                 case "5":
-                    petsBorn += skip(myPets, totalPets);
+                    myPets.skip();
                     break;
                 case "0":
                     dev = false;
@@ -500,7 +174,6 @@ public class mein {
                     errorMessage();
             }
         }
-        return petsBorn;
     }
 
     public static void errorMessage(){
@@ -508,52 +181,5 @@ public class mein {
                 "Por favor, seleccione una opción válida",
                 "Opción invalida",
                 JOptionPane.ERROR_MESSAGE);
-    }
-
-    public static void encrypt(String path){
-        final String secretKey = "Llave?secreta?secretiosa";
-        String[] lines = new String[17];
-        try{
-            BufferedReader breader;
-            breader = new BufferedReader(new FileReader(path));
-            for(int i=0; i<17; i++)
-                lines[i]=  breader.readLine();
-
-            BufferedWriter bwriter;
-            bwriter = new BufferedWriter(new FileWriter(path));
-            for(int i=0; i<17; i++)
-                bwriter.write(Objects.requireNonNull(AES.encrypt(lines[i], secretKey))+"\n");
-            bwriter.close();
-
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null,
-                    "No se pudo encriptar el archivo",
-                    "Error!",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public static void decrypt(String path){
-        final String secretKey = "Llave?secreta?secretiosa";
-        String[] lines = new String[17];
-        try{
-            BufferedReader breaderd;
-            breaderd = new BufferedReader(new FileReader(path));
-            for(int i=0; i<17; i++)
-                lines[i]=  breaderd.readLine();
-
-            System.out.println();
-
-            BufferedWriter bwriterd;
-            bwriterd = new BufferedWriter(new FileWriter(path));
-            for(int i=0; i<17; i++)
-                bwriterd.write(Objects.requireNonNull(AES.decrypt(lines[i], secretKey))+"\n");
-            bwriterd.close();
-    }catch(Exception e){
-            JOptionPane.showMessageDialog(null,
-                    "No se pudo decriptar el archivo",
-                    "Error!",
-                    JOptionPane.ERROR_MESSAGE);
-        }
     }
 }

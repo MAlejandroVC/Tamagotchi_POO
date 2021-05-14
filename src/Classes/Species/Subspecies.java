@@ -85,12 +85,18 @@ public enum Subspecies {
     }
 
     private static Subspecies switchOP(int op, Subspecies sub1, Subspecies sub2, Subspecies sub3, Subspecies sub4, Subspecies sub5) {
-        switch(op){
-            case 1: return sub1;
-            case 2: return sub2;
-            case 3: return sub3;
-            case 4: return sub4;
-            default: return sub5;
+        while (true) {
+            switch(op){
+                case 1: return sub1;
+                case 2: return sub2;
+                case 3: return sub3;
+                case 4: return sub4;
+                case 5: return sub5;
+                default: op = Integer.parseInt(JOptionPane.showInputDialog(null,
+                        "Opción inválida \n  Vuelve a intnetar (1-5)",
+                        "Invalido",
+                        JOptionPane.WARNING_MESSAGE));
+            }
         }
     }
 
