@@ -249,16 +249,31 @@ public class Tamagotchi {
     }
 
     public static Tamagotchi procrear(Tamagotchi pareja1, Tamagotchi pareja2){
-        if(pareja1.species != pareja2.species)
-            return null;
         if(pareja1.getLvl()<5 || pareja2.getLvl()<5)
             return null;
         boolean isAtractive1 = false;
         boolean isAtractive2 = false;
-        if(Math.random()*100 < 5*pareja1.dna.getCha())
+        if(Math.random()*100 < pareja1.dna.getCha())
             isAtractive1 = true;
-        if(Math.random()*100 < 5*pareja2.dna.getCha())
+        if(Math.random()*100 < pareja2.dna.getCha())
             isAtractive2 = true;
+        //procrear mágico
+        if(pareja1.getLvl() == 10 && pareja2.getLvl() == 10){
+            if(isAtractive1 && isAtractive2)
+                return new Tamagotchi(
+                        JOptionPane.showInputDialog(null,
+                                pareja1.getName() + " y " + pareja2.getName() + " tuvieron un hijo?! \n" +
+                                        "Ambos son nivel máximo y tuvieron un hijo... peculiar \n" +
+                                        "Ponle nombre a tu tamagotchi mágico",
+                                "Nueva especie?",
+                                JOptionPane.PLAIN_MESSAGE),
+                        Species.MAGICO,
+                        Subspecies.selectSubspecies(Species.MAGICO),
+                        new SPECIAL(pareja1.dna, pareja2.dna));
+        }
+        //procrear normal
+        if(pareja1.species != pareja2.species)
+            return null;
         if(isAtractive1 && isAtractive2)
             return new Tamagotchi(
                     JOptionPane.showInputDialog(null,

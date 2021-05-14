@@ -30,10 +30,9 @@ public class mein {
                             3. Ver a mi Tamagotchi                \s
                             4. Alimentar a tu Tamagotchi          \s
                             5. Jugar con tu Tamagotchi            \s
-                            6. Manda el Tamagotchi a explorar     \s
-                            7. Pelea contra otro Tamagotchi       \s
-                            8. Importa Tamagotchis                \s
-                            9. Exporta Tamagotchis                \s
+                            6. Pelea contra otro Tamagotchi       \s
+                            7. Importa Tamagotchis                \s
+                            8. Exporta Tamagotchis                \s
                             0. Salir del juego                    \s""".indent(1),
                     "Menú Principal",
                     JOptionPane.QUESTION_MESSAGE);
@@ -55,15 +54,12 @@ public class mein {
                     jugar(myPets[currentPet]);
                     break;
                 case "6":
-                    explorar(myPets[currentPet]);
-                    break;
-                case "7":
                     pelear(myPets[currentPet]);
                     break;
-                case "8":
+                case "7":
                     totalPets = load(myPets, totalPets);
                     break;
-                case "9":
+                case "8":
                     save(myPets, totalPets);
                     break;
                 case "0":
@@ -71,7 +67,7 @@ public class mein {
                     playing = false;
                     break;
                 case "-1":
-                    devTools(myPets, currentPet, totalPets);
+                    totalPets += devTools(myPets, currentPet, totalPets);
                     break;
                 default:
                     errorMessage();
@@ -80,7 +76,7 @@ public class mein {
             for(int i=0; i<totalPets; i++)
                 myPets[i].update();
             //procrear
-            procrear(myPets, totalPets);
+            totalPets += procrear(myPets, totalPets);
         }
     }
 
@@ -223,10 +219,6 @@ public class mein {
         }
     }
 
-    public static void explorar(Tamagotchi pet){
-        System.out.println(pet.getName() + "esta explorando");
-    }
-
     public static void pelear(Tamagotchi pet){
         while(true) {
             int op = Poke.printMenu();
@@ -367,7 +359,8 @@ public class mein {
         }
     }
 
-    public static void skip(Tamagotchi[] myPets, int totalPets){
+    public static int skip(Tamagotchi[] myPets, int totalPets){
+        int petsBorn = 0;
         int turns = Integer.parseInt(JOptionPane.showInputDialog(null,
                 "Ingresa cuantos turnos quieres saltar",
                 "Skip",
@@ -375,31 +368,34 @@ public class mein {
         for(int i=0; i<turns; i++){
             for(int j=0; j<totalPets; j++) {
                 myPets[j].update();
-                procrear(myPets, totalPets);
+                petsBorn += procrear(myPets, totalPets);
             }
         }
+        return petsBorn;
     }
 
-    public static void procrear(Tamagotchi[] myPets, int totalPets){
+    public static int procrear(Tamagotchi[] myPets, int totalPets){
         if(totalPets > 1) {
             for (int i = 0; i < totalPets - 1; i++) { //i
                 for (int j = i + 1; j < totalPets; j++) { //j
                     if(totalPets > 63)
-                        break;
+                        return 0;
                     myPets[totalPets] = Tamagotchi.procrear(myPets[i], myPets[j]);
                     if (myPets[totalPets] != null){
-                        totalPets++;
                         JOptionPane.showMessageDialog(null,
                                 "Nació un tamagotchi nuevo! Ve a conocerlo",
                                 "Nuevo Tamagotchi",
                                 JOptionPane.INFORMATION_MESSAGE);
+                        return 1;
                     }
                 }
             }
         }
+        return 0;
     }
 
-    public static void devTools(Tamagotchi[] myPets, int currentPet,int totalPets){
+    public static int devTools(Tamagotchi[] myPets, int currentPet,int totalPets){
+        int petsBorn = 0;
         String op, op2, op3;
         boolean dev = true;
         Tamagotchi pet = myPets[currentPet];
@@ -495,7 +491,7 @@ public class mein {
                     view(myPets[currentPet]);
                     break;
                 case "5":
-                    skip(myPets, totalPets);
+                    petsBorn += skip(myPets, totalPets);
                     break;
                 case "0":
                     dev = false;
@@ -504,6 +500,7 @@ public class mein {
                     errorMessage();
             }
         }
+        return petsBorn;
     }
 
     public static void errorMessage(){
@@ -515,46 +512,17 @@ public class mein {
 
     public static void encrypt(String path){
         final String secretKey = "Llave?secreta?secretiosa";
+        String[] lines = new String[17];
         try{
             BufferedReader breader;
             breader = new BufferedReader(new FileReader(path));
-            String line1=  breader.readLine();
-            String line2=  breader.readLine();
-            String line3=  breader.readLine();
-            String line4=  breader.readLine();
-            String line5=  breader.readLine();
-            String line6= breader.readLine();
-            String line7= breader.readLine();
-            String line8= breader.readLine();
-            String line9= breader.readLine();
-            String line10= breader.readLine();
-            String line11= breader.readLine();
-            String line12= breader.readLine();
-            String line13= breader.readLine();
-            String line14= breader.readLine();
-            String line15= breader.readLine();
-            String line16= breader.readLine();
-            String line17= breader.readLine();
+            for(int i=0; i<17; i++)
+                lines[i]=  breader.readLine();
 
             BufferedWriter bwriter;
             bwriter = new BufferedWriter(new FileWriter(path));
-            bwriter.write(Objects.requireNonNull(AES.encrypt(line1, secretKey))+"\n");
-            bwriter.write(Objects.requireNonNull(AES.encrypt(line2, secretKey))+"\n");
-            bwriter.write(Objects.requireNonNull(AES.encrypt(line3, secretKey))+"\n");
-            bwriter.write(Objects.requireNonNull(AES.encrypt(line4, secretKey))+"\n");
-            bwriter.write(Objects.requireNonNull(AES.encrypt(line5, secretKey))+"\n");
-            bwriter.write(Objects.requireNonNull(AES.encrypt(line6, secretKey))+"\n");
-            bwriter.write(Objects.requireNonNull(AES.encrypt(line7, secretKey))+"\n");
-            bwriter.write(Objects.requireNonNull(AES.encrypt(line8, secretKey))+"\n");
-            bwriter.write(Objects.requireNonNull(AES.encrypt(line9, secretKey))+"\n");
-            bwriter.write(Objects.requireNonNull(AES.encrypt(line10, secretKey))+"\n");
-            bwriter.write(Objects.requireNonNull(AES.encrypt(line11, secretKey))+"\n");
-            bwriter.write(Objects.requireNonNull(AES.encrypt(line12, secretKey))+"\n");
-            bwriter.write(Objects.requireNonNull(AES.encrypt(line13, secretKey))+"\n");
-            bwriter.write(Objects.requireNonNull(AES.encrypt(line14, secretKey))+"\n");
-            bwriter.write(Objects.requireNonNull(AES.encrypt(line15, secretKey))+"\n");
-            bwriter.write(Objects.requireNonNull(AES.encrypt(line16, secretKey))+"\n");
-            bwriter.write(Objects.requireNonNull(AES.encrypt(line17, secretKey))+"\n");
+            for(int i=0; i<17; i++)
+                bwriter.write(Objects.requireNonNull(AES.encrypt(lines[i], secretKey))+"\n");
             bwriter.close();
 
         }catch(Exception e){
@@ -567,48 +535,19 @@ public class mein {
 
     public static void decrypt(String path){
         final String secretKey = "Llave?secreta?secretiosa";
+        String[] lines = new String[17];
         try{
             BufferedReader breaderd;
             breaderd = new BufferedReader(new FileReader(path));
-            String line1=  breaderd.readLine();
-            String line2=  breaderd.readLine();
-            String line3=  breaderd.readLine();
-            String line4=  breaderd.readLine();
-            String line5=  breaderd.readLine();
-            String line6= breaderd.readLine();
-            String line7= breaderd.readLine();
-            String line8= breaderd.readLine();
-            String line9= breaderd.readLine();
-            String line10= breaderd.readLine();
-            String line11= breaderd.readLine();
-            String line12= breaderd.readLine();
-            String line13= breaderd.readLine();
-            String line14= breaderd.readLine();
-            String line15= breaderd.readLine();
-            String line16= breaderd.readLine();
-            String line17= breaderd.readLine();
+            for(int i=0; i<17; i++)
+                lines[i]=  breaderd.readLine();
 
             System.out.println();
 
             BufferedWriter bwriterd;
             bwriterd = new BufferedWriter(new FileWriter(path));
-            bwriterd.write(Objects.requireNonNull(AES.decrypt(line1, secretKey))+"\n");
-            bwriterd.write(Objects.requireNonNull(AES.decrypt(line2, secretKey))+"\n");
-            bwriterd.write(Objects.requireNonNull(AES.decrypt(line3, secretKey))+"\n");
-            bwriterd.write(Objects.requireNonNull(AES.decrypt(line4, secretKey))+"\n");
-            bwriterd.write(Objects.requireNonNull(AES.decrypt(line5, secretKey))+"\n");
-            bwriterd.write(Objects.requireNonNull(AES.decrypt(line6, secretKey))+"\n");
-            bwriterd.write(Objects.requireNonNull(AES.decrypt(line7, secretKey))+"\n");
-            bwriterd.write(Objects.requireNonNull(AES.decrypt(line8, secretKey))+"\n");
-            bwriterd.write(Objects.requireNonNull(AES.decrypt(line9, secretKey))+"\n");
-            bwriterd.write(Objects.requireNonNull(AES.decrypt(line10, secretKey))+"\n");
-            bwriterd.write(Objects.requireNonNull(AES.decrypt(line11, secretKey))+"\n");
-            bwriterd.write(Objects.requireNonNull(AES.decrypt(line12, secretKey))+"\n");
-            bwriterd.write(Objects.requireNonNull(AES.decrypt(line13, secretKey))+"\n");
-            bwriterd.write(Objects.requireNonNull(AES.decrypt(line14, secretKey))+"\n");
-            bwriterd.write(Objects.requireNonNull(AES.decrypt(line15, secretKey))+"\n");
-            bwriterd.write(Objects.requireNonNull(AES.decrypt(line16, secretKey))+"\n");
-            bwriterd.write(Objects.requireNonNull(AES.decrypt(line17, secretKey))+"\n");
+            for(int i=0; i<17; i++)
+                bwriterd.write(Objects.requireNonNull(AES.decrypt(lines[i], secretKey))+"\n");
             bwriterd.close();
     }catch(Exception e){
             JOptionPane.showMessageDialog(null,
