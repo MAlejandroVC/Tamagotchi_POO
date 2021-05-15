@@ -36,12 +36,15 @@ public class Poke {
         if(!fight(pet, boss))
             return;
 
-        if(pet.getHp() > 0)
+        if(pet.getHp() > 0) {
             JOptionPane.showMessageDialog(null,
                     " ~~~ FELICIDADES ~~~ \n" +
                             "Completaste la torre nivel " + towerLvl,
                     "Torre Completada",
                     JOptionPane.PLAIN_MESSAGE);
+            if(towerLvl+5 < pet.getLvl())
+                pet.lvlUp();
+        }
     }
 
     public static void infinite(Tamagotchi pet){

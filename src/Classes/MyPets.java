@@ -217,8 +217,8 @@ public class MyPets {
         BufferedReader breader;
         String name;
         String path = JOptionPane.showInputDialog(null,
-                "Dirección del juego: \n" +
-                        "ej: C:\\Users\\Lenovo\\IdeaProjects\\Tamagotchi_POO\\src",
+                "Dirección de saves: \n" +
+                        "ej: C:\\Users\\Lenovo\\IdeaProjects\\Tamagotchi_POO\\src\\saves",
                 "Cargar Tamagotchis",
                 JOptionPane.PLAIN_MESSAGE);
         while(true){
@@ -229,8 +229,8 @@ public class MyPets {
             if(name==null)
                 break;
             try{
-                decrypt(path + "\\saves\\" + name + ".txt");
-                breader = new BufferedReader(new FileReader(path + "\\saves\\" + name + ".txt"));
+                decrypt(path + "\\" + name + ".txt");
+                breader = new BufferedReader(new FileReader(path + "\\" + name + ".txt"));
                 if(breader.readLine().equals("TamagotchiSave")) {
                     pets.add(new Tamagotchi(
                             ""+breader.readLine(),
@@ -254,7 +254,7 @@ public class MyPets {
                             "Importado exitoso",
                             JOptionPane.INFORMATION_MESSAGE);
                 }
-                encrypt(path + "\\saves\\" + name +".txt");
+                encrypt(path + "\\" + name +".txt");
             }catch(Exception e){
                 JOptionPane.showMessageDialog(null,
                         "No se pudo abrir el archivo",
@@ -268,14 +268,14 @@ public class MyPets {
         BufferedWriter bwriter;
         Tamagotchi pet;
         String path = JOptionPane.showInputDialog(null,
-                "Dirección del juego: \n" +
-                        "ej: C:\\Users\\Lenovo\\IdeaProjects\\Tamagotchi_POO\\src",
+                "Dirección de save: \n" +
+                        "ej: C:\\Users\\Lenovo\\IdeaProjects\\Tamagotchi_POO\\src\\saves",
                 "Guardar Tamagotchis",
                 JOptionPane.PLAIN_MESSAGE);
         try{
             for(int i=0; i<getTotalPets(); i++){
                 pet = pets.get(i);
-                bwriter = new BufferedWriter(new FileWriter(path + "\\saves\\" + pet.getName() +".txt"));
+                bwriter = new BufferedWriter(new FileWriter(path + "\\" + pet.getName() +".txt"));
                 bwriter.write("TamagotchiSave\n");
                 bwriter.write(""+pet.getName()+"\n");
                 bwriter.write(""+pet.getSpecies()+"\n");
@@ -294,7 +294,7 @@ public class MyPets {
                 bwriter.write(""+pet.getDna().getAgl()+"\n");
                 bwriter.write(""+pet.getDna().getLck()+"\n");
                 bwriter.close();
-                encrypt(path + "\\saves\\" + pet.getName() +".txt");
+                encrypt(path + "\\" + pet.getName() +".txt");
             }
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,
